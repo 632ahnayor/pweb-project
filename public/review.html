@@ -41,7 +41,7 @@
                     </span>
                 </div>
                 <div id="logoutContainer" style="display: none;">
-                    <a href="../backend/auth/visitor-logout.php" class="btn btn-sm btn-outline-danger">
+                    <a href="backend/auth/visitor-logout.php" class="btn btn-sm btn-outline-danger">
                         <i class="bi bi-box-arrow-right"></i> Logout
                     </a>
                 </div>
@@ -142,7 +142,7 @@
                 } else {
                     // Redirect to login if not logged in
                     alert('Please login to submit a review');
-                    window.location.href = '../backend/auth/visitor-login.php?redirect=' + encodeURIComponent(window.location.href);
+                    window.location.href = apiUrl('/backend/auth/visitor-login.php?redirect=' + encodeURIComponent(window.location.href));
                 }
             } catch (error) {
                 console.log('Error checking session:', error);
