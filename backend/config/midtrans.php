@@ -16,12 +16,12 @@ define('MIDTRANS_ENVIRONMENT', 'sandbox');
 define('MIDTRANS_IS_PRODUCTION', false);
 
 // Server Key (BACKEND ONLY - DO NOT EXPOSE TO FRONTEND)
-// Get from: https://dashboard.sandbox.midtrans.com/settings/config_info
-define('MIDTRANS_SERVER_KEY', 'Mid-server-ENF7FzPcdTHTYsLUQGU7iL0e');
+// Get from environment variable for security
+define('MIDTRANS_SERVER_KEY', $_ENV['MIDTRANS_SERVER_KEY'] ?? getenv('MIDTRANS_SERVER_KEY') ?? '');
 
 // Client Key (Can be used in frontend)
-// Get from: https://dashboard.sandbox.midtrans.com/settings/config_info
-define('MIDTRANS_CLIENT_KEY', 'Mid-client-yGzpX_Cn3fhtimVH');
+// Get from environment variable
+define('MIDTRANS_CLIENT_KEY', $_ENV['MIDTRANS_CLIENT_KEY'] ?? getenv('MIDTRANS_CLIENT_KEY') ?? '');
 
 // ============================================================================
 // MERCHANT INFORMATION
