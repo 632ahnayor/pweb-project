@@ -176,6 +176,10 @@
     <script src="assets/js/app.js"></script>
     <script src="assets/js/midtrans-payment.js"></script>
     <script>
+        // Store visitor ID for logged-in users
+        let visitorId = null;
+        let isVisitorLoggedIn = false;
+
         // Check visitor session on page load
         async function checkVisitorSession() {
             try {
@@ -183,6 +187,9 @@
                 const data = await response.json();
                 
                 if (data.logged_in) {
+                    isVisitorLoggedIn = true;
+                    visitorId = data.id_pengunjung;
+                    
                     const statusSpan = document.getElementById('visitorStatus');
                     statusSpan.innerHTML = `
                         <i class="bi bi-person-check"></i>
@@ -201,6 +208,8 @@
                 }
             } catch (error) {
                 console.log('Not logged in');
+                isVisitorLoggedIn = false;
+                visitorId = null;
             }
         }
 
@@ -239,28 +248,37 @@
             const totalAmount = unitPrice * formData.quantity;
 
             try {
-                // Step 1: Create visitor
-                const visitorRes = await fetch('../backend/api/pengunjung.php?action=create', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        nama: formData.nama,
-                        no_hp: formData.no_hp,
-                        email: formData.email
-                    })
-                });
+                let id_pengunjung = visitorId; // Use existing visitor ID if logged in
 
-                if (!visitorRes.ok) throw new Error('Failed to create visitor');
-                const visitorData = await visitorRes.json();
+                // Step 1: Create visitor ONLY if not logged in
+                if (!isVisitorLoggedIn) {
+                    const visitorRes = await fetch('../backend/api/pengunjung.php?action=create', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            nama: formData.nama,
+                            no_hp: formData.no_hp,
+                            email: formData.email
+                        })
+                    });
 
-                if (!visitorData.success) throw new Error(visitorData.message);
+                    if (!visitorRes.ok) throw new Error('Failed to create visitor');
+                    const visitorData = await visitorRes.json();
+
+                    if (!visitorData.success) throw new Error(visitorData.message);
+                    
+                    id_pengunjung = visitorData.id;
+                } else {
+                    // User already logged in - just use their existing ID
+                    console.log('Using existing visitor ID:', id_pengunjung);
+                }
 
                 // Step 2: Create ticket
                 const ticketRes = await fetch('../backend/api/tiket.php?action=create', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        id_pengunjung: visitorData.id,
+                        id_pengunjung: id_pengunjung,
                         tanggal_berkunjung: formData.tanggal_berkunjung,
                         harga: totalAmount,
                         status: 'Pending'
