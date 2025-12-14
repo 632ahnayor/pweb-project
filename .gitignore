@@ -3,6 +3,11 @@ docs/guide/
 docs/summary/
 test-db.php
 
+# Environment variables
+.env
+.env.local
+.env.*.local
+
 # IDE
 .vscode/
 .idea/

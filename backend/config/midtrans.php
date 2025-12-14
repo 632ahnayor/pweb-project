@@ -26,7 +26,7 @@ define('MIDTRANS_CLIENT_KEY', 'SB-Mid-client-yGzpX_Cn3fhtimVH');
 // ============================================================================
 // MERCHANT INFORMATION
 // ============================================================================
-define('MERCHANT_ID', 'MERCHANT_ID_HERE');
+define('MERCHANT_ID', 'G534484741');
 define('MERCHANT_NAME', 'Mangrove Wonorejo Ecotourism');
 
 // ============================================================================

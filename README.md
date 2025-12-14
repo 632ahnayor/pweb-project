@@ -4,24 +4,23 @@
 | :--------: | :-------: | :-------: |:----------: | :-------------: |
 | `EF234301` Pemrograman Web | A | 19 | Fajar Baskoro, S.Kom., M.T. | 24 November—14 Desember 2025 |
 
----
-
 ## 📋 Daftar Isi
 
 1. [Ringkasan Proyek](#-ringkasan-proyek)
 2. [Fitur Utama](#-fitur-utama)
 3. [Implementasi Teknis](#-implementasi-teknis)
-4. [Diagram Sistem](#-diagram-sistem)
-5. [Panduan Pengguna](#-panduan-pengguna)
-6. [Setup & Instalasi](#-setup--instalasi)
-7. [Struktur Database](#-struktur-database)
-8. [API Integration](#-api-integration)
-9. [Testing](#-testing)
-10. [Video Demonstrasi](#-video-demonstrasi)
-11. [Pembagian Jobdesk](#-pembagian-jobdesk)
-12. [Resources](#-resources)
-
----
+4. [Architectural Flow](#-architectural-flow--component-integration)
+5. [Multi-Environment Database](#-multi-environment-database-architecture-)
+6. [Diagram Sistem](#-diagram-sistem)
+7. [Panduan Pengguna](#-panduan-pengguna)
+8. [Setup & Instalasi](#-setup--instalasi)
+9. [Database & Testing Tools](#-database--testing-tools)
+10. [Struktur Database](#-struktur-database)
+11. [API Integration](#-api-integration)
+12. [Testing](#-testing)
+13. [Video Demonstrasi](#-video-demonstrasi)
+14. [Pembagian Jobdesk](#-pembagian-jobdesk)
+15. [Resources](#-resources)
 
 ## 📖 Ringkasan Proyek
 
@@ -45,35 +44,35 @@
 ## 🎯 Fitur Utama
 
 ### Frontend (Pengunjung)
-| Fitur | Deskripsi | Status |
-|-------|-----------|--------|
-| **Landing Page** | Halaman utama dengan info mangrove, gallery, dan reviews | ✅ Complete |
-| **Registrasi Diri** | Pengunjung bisa mendaftar akun sendiri | ✅ Complete |
-| **Login/Logout** | Manajemen session pengunjung | ✅ Complete |
-| **Booking Tiket** | Form booking dengan integrasi Midtrans | ✅ Complete |
-| **Pembayaran** | Midtrans SNAP sandbox integration | ✅ Complete |
-| **Review & Rating** | Pengunjung bisa memberikan ulasan 1-5 bintang | ✅ Complete |
-| **Responsive Design** | Mobile-friendly UI dengan Bootstrap 5 | ✅ Complete |
+| Fitur | Deskripsi |
+|-------|-----------|
+| **Landing Page** | Halaman utama dengan info mangrove, gallery, dan reviews |
+| **Registrasi Diri** | Pengunjung bisa mendaftar akun sendiri |
+| **Login/Logout** | Manajemen session pengunjung |
+| **Booking Tiket** | Form booking dengan integrasi Midtrans |
+| **Pembayaran** | Midtrans SNAP sandbox integration |
+| **Review & Rating** | Pengunjung bisa memberikan ulasan 1-5 bintang |
+| **Responsive Design** | Mobile-friendly UI dengan Bootstrap 5 |
 
 ### Backend (Admin)
-| Fitur | Deskripsi | Status |
-|-------|-----------|--------|
-| **Admin Login** | Authentikasi admin/operator | ✅ Complete |
-| **Dashboard** | Statistik pengunjung, tiket, revenue | ✅ Complete |
-| **Manajemen Pengunjung** | CRUD data pengunjung | ✅ Complete |
-| **Manajemen Tiket** | Lihat, edit, hapus tiket | ✅ Complete |
-| **Manajemen Review** | Lihat review dari pengunjung | ✅ Complete |
-| **Laporan Pendapatan** | Revenue report by daily/weekly/monthly | ✅ Complete |
-| **Laporan Keuangan** | Ringkasan transaksi pembayaran | ✅ Complete |
+| Fitur | Deskripsi |
+|-------|-----------|
+| **Admin Login** | Authentikasi admin/operator |
+| **Dashboard** | Statistik pengunjung, tiket, revenue |
+| **Manajemen Pengunjung** | CRUD data pengunjung |
+| **Manajemen Tiket** | Lihat, edit, hapus tiket |
+| **Manajemen Review** | Lihat review dari pengunjung |
+| **Laporan Pendapatan** | Revenue report by daily/weekly/monthly |
+| **Laporan Keuangan** | Ringkasan transaksi pembayaran |
 
 ### Database
-| Tabel | Fungsi | Status |
-|-------|--------|--------|
-| **pengunjung** | Simpan data pengunjung terdaftar | ✅ Complete |
-| **tiket** | Riwayat pembelian tiket | ✅ Complete |
-| **review** | Ulasan & rating dari pengunjung | ✅ Complete |
-| **user** | Data login admin/operator | ✅ Complete |
-| **transactions** | Riwayat transaksi Midtrans | ✅ Complete |
+| Tabel | Fungsi |
+|-------|--------|
+| **pengunjung** | Simpan data pengunjung terdaftar |
+| **tiket** | Riwayat pembelian tiket |
+| **review** | Ulasan & rating dari pengunjung |
+| **user** | Data login admin/operator |
+| **transactions** | Riwayat transaksi Midtrans |
 
 ---
 
@@ -90,68 +89,78 @@
 
 #### Frontend Architecture
 ```
-public/
-├── index.html           # Landing page dengan hero, gallery, reviews
-├── booking.html         # Form booking tiket
-├── review.html          # Form submit review
+public/                         # Public HTML/Assets (Visitor-facing)
+├── index.html                  # Landing page: hero, gallery, reviews
+├── booking.html                # Booking form + Midtrans SNAP
+├── review.html                 # Review submission form
+├── setup.html                  # Setup guide documentation
 ├── assets/
 │   ├── css/
-│   │   ├── style.css    # Main styling dengan CSS variables
-│   │   └── bootstrap/   # Local Bootstrap 5.3.8 files
-│   └── js/
-│       ├── app.js       # Main JavaScript logic
-│       └── midtrans-payment.js # Payment handler
+│   │   ├── style.css           # Main styles + CSS variables
+│   │   ├── bootstrap.min.css   # Bootstrap 5.3.8 minified
+│   │   └── bootstrap-icons.css # Icon library
+│   ├── js/
+│   │   ├── app.js              # Core logic (validation, UI)
+│   │   └── midtrans-payment.js # Payment processing
+│   └── img/
+│       └── gallery/            # Image assets
 ```
 
-**Fitur Frontend:**
-- ✅ Responsive design (mobile-first approach)
-- ✅ CSS variables untuk theming konsisten (--primary-green, --secondary-green, dll)
-- ✅ Form validation dengan JavaScript
-- ✅ Image carousel (hero & gallery)
-- ✅ Star rating system interaktif
-- ✅ Session-based authentication display
+**Frontend Components:**
+- ✅ **Landing Page**: Hero section, gallery carousel, testimonials
+- ✅ **Booking Form**: Date picker, ticket selection, validation
+- ✅ **Payment UI**: Midtrans SNAP integration
+- ✅ **Review Form**: Star rating (1-5), comment submission
+- ✅ **Authentication Display**: Show user status/logout link
+- ✅ **Responsive Design**: Mobile-first Bootstrap 5
+- ✅ **CSS Variables**: Color palette consistency (--primary-green, etc)
+- ✅ **JavaScript Logic**: Form validation, carousel, interactivity
 
 #### Backend Architecture
 ```
-backend/
-├── config/
-│   ├── database.php     # Database connection & helper functions
-│   ├── auth_helper.php  # Authentication & session management
-│   └── midtrans.php     # Midtrans API configuration
-├── auth/
-│   ├── login.php        # Admin login page
-│   ├── logout.php       # Admin logout handler
-│   ├── visitor-login.php    # Visitor login page
-│   ├── visitor-register.php # Visitor registration page
-│   └── visitor-logout.php   # Visitor logout handler
-├── api/
-│   ├── create_transaction.php   # Create Midtrans transaction
-│   ├── midtrans_callback.php    # Payment webhook handler
-│   ├── pengunjung.php           # Visitor CRUD API
-│   ├── tiket.php                # Ticket CRUD API
-│   ├── review.php               # Review CRUD API
-│   ├── transaction_status.php   # Check transaction status
-│   └── visitor-status.php       # Check visitor status
-└── views/
-    ├── dashboard.php        # Admin statistics dashboard
-    ├── pengunjung.php       # Visitor management page
-    ├── tiket.php            # Ticket management page
-    ├── review.php           # Review viewing page
-    ├── revenue_report.php   # Revenue report (daily/weekly/monthly)
-    └── financial_report.php # Payment transactions report
+backend/                             # Backend Logic & APIs
+├── config/                          # Configuration Layer
+│   ├── database.php                 # PDO connection + CRUD helpers, multi-env support (.env loading)
+│   ├── auth_helper.php              # Session management + RBAC
+│   ├── midtrans.php                 # Midtrans API keys
+│   ├── debug.php                    # Web-based debugger
+│   └── test-config.php              # CLI testing tool
+├── auth/                            # Authentication Layer
+│   ├── login.php                    # Admin login form & handler
+│   ├── logout.php                   # Session cleanup
+│   ├── visitor-login.php            # Visitor login form
+│   ├── visitor-register.php         # Visitor registration
+│   └── visitor-logout.php           # Visitor session cleanup
+├── api/                             # API Endpoints Layer (RESTful)
+│   ├── create_transaction.php       # POST: Create Midtrans transaction
+│   ├── midtrans_callback.php        # POST: Webhook from Midtrans
+│   ├── pengunjung.php               # GET/POST: Visitor CRUD
+│   ├── tiket.php                    # GET/POST/PUT: Ticket CRUD
+│   ├── review.php                   # GET/POST: Review CRUD
+│   ├── transaction_status.php       # GET: Check payment status
+│   └── visitor-status.php           # GET: Check login status
+└── views/                           # Admin Dashboard Layer
+    ├── dashboard.php                # Statistics & overview
+    ├── pengunjung.php               # Manage visitor data
+    ├── tiket.php                    # Manage tickets
+    ├── review.php                   # View reviews & ratings
+    ├── revenue_report.php           # Revenue by period
+    └── financial_report.php         # Transaction summary
 ```
 
-**Fitur Backend:**
-- ✅ PDO prepared statements (SQL injection protected)
-- ✅ bcrypt password hashing
-- ✅ Server-side form validation
-- ✅ RESTful API endpoints
-- ✅ Session-based authentication + role-based access control
-- ✅ Error logging & handling
+**Backend Features:**
+- ✅ **PDO Database**: Prepared statements, multi-env support
+- ✅ **Authentication**: Session-based, bcrypt hashing, RBAC
+- ✅ **API Endpoints**: 7 RESTful endpoints
+- ✅ **Payment Integration**: Midtrans SNAP webhook handling
+- ✅ **Admin Panel**: Dashboard, CRUD pages, reports
+- ✅ **Testing Infrastructure**: Browser test, web debugger, CLI tool
+- ✅ **Error Handling**: Logging & validation
+- ✅ **Security**: Prepared statements, password hashing, session timeout
 
 #### Key Implementation Details
 
-**Database Connection (database.php)** ✨ **NEW: Multi-Environment Support**
+**Database Connection (database.php)**
 ```php
 // Smart database connection - automatically load from .env
 // Supports LOCAL (Laragon) and LIVE (InfiniteFree)
@@ -186,7 +195,7 @@ LIVE_DB_NAME=if0_40676823_mangrove_wonorejo
 - delete_data()        // Delete record
 ```
 
-**🆕 Database Configuration Features:**
+**Database Configuration Features:**
 - ✅ Single `.env` file for environment management
 - ✅ Easy switch between LOCAL & LIVE (1 line change)
 - ✅ Automatic credential loading
@@ -223,6 +232,231 @@ session_set_cookie_params(['lifetime' => 3600]);
 4. User pay via Midtrans SNAP
 5. Midtrans send callback webhook
 6. Backend update transaction & ticket status
+```
+
+---
+
+### 1.5. **Multi-Environment Database Architecture**
+
+**Sistem konfigurasi database yang mendukung LOCAL dan LIVE environment:**
+
+#### Environment-Based Configuration
+```
+┌─────────────────────────────────────────┐
+│      .env file (not in git)             │
+├─────────────────────────────────────────┤
+│ DB_ENVIRONMENT=local                    │
+│ LOCAL_DB_HOST=localhost                 │
+│ LOCAL_DB_USER=root                      │
+│ LIVE_DB_HOST=sql105.infinityfree.com    │
+│ LIVE_DB_USER=if0_40676823               │
+└─────────────────────────────────────────┘
+           ↓ load_env_file()
+┌─────────────────────────────────────────┐
+│  backend/config/database.php            │
+├─────────────────────────────────────────┤
+│ • Parse .env variables                  │
+│ • Select credentials by environment     │
+│ • Create PDO connection                 │
+│ • Provide CRUD helper functions         │
+└─────────────────────────────────────────┘
+           ↓ Include all backends
+┌─────────────────────────────────────────┐
+│    All Backend PHP Files                │
+├─────────────────────────────────────────┤
+│ • Use same database.php                 │
+│ • Auto switch LOCAL ↔ LIVE              │
+│ • Zero code changes needed              │
+└─────────────────────────────────────────┘
+```
+
+#### How It Works
+```
+Step 1: Load Environment File
+        ↓
+        load_env_file() reads .env and parses KEY=VALUE
+        Falls back to .env.example if .env not found
+        
+Step 2: Determine Active Environment
+        ↓
+        Check DB_ENVIRONMENT from $_ENV
+        Default: 'local' if not set
+        
+Step 3: Load Correct Credentials
+        ↓
+        if (DB_ENVIRONMENT === 'live')
+            Use LIVE_DB_* credentials
+        else
+            Use LOCAL_DB_* credentials
+            
+Step 4: Create PDO Connection
+        ↓
+        Connection pooling with error handling
+        UTF8MB4 charset for full Unicode support
+        
+Step 5: Available Helper Functions
+        ↓
+        execute_query()  - Run prepared statements
+        fetch_one()      - Get single record
+        fetch_all()      - Get multiple records
+        insert_data()    - Insert new record
+        update_data()    - Update existing record
+        delete_data()    - Delete record
+```
+
+#### Configuration Files
+```
+.env (LIVE, not in git)           .env.example (Template, in git)
+├── DB_ENVIRONMENT=live           ├── DB_ENVIRONMENT=local
+├── LOCAL_DB_HOST=localhost       ├── LOCAL_DB_HOST=localhost
+├── LOCAL_DB_USER=root            ├── LOCAL_DB_USER=root
+├── LOCAL_DB_PASS=                ├── LOCAL_DB_PASS=
+├── LOCAL_DB_NAME=...             ├── LOCAL_DB_NAME=...
+├── LIVE_DB_HOST=sql105.inf...    ├── LIVE_DB_HOST=sql105.inf...
+├── LIVE_DB_USER=if0_40...        ├── LIVE_DB_USER=if0_40...
+├── LIVE_DB_PASS=***hidden***     └── LIVE_DB_PASS=your_password
+└── LIVE_DB_NAME=if0_40...
+```
+
+#### Quick Switch Guide
+```
+To switch from LOCAL to LIVE:
+1. Edit .env file
+2. Change: DB_ENVIRONMENT=local  →  DB_ENVIRONMENT=live
+3. Save file
+4. All backend files automatically use LIVE database!
+
+To switch back to LOCAL:
+1. Edit .env file
+2. Change: DB_ENVIRONMENT=live  →  DB_ENVIRONMENT=local
+3. Save file
+4. All backend files automatically use LOCAL database!
+```
+
+---
+
+### 2. **Architectural Flow & Component Integration**
+
+#### Request-Response Flow (Visitor Booking)
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    VISITOR BROWSER                          │
+├─────────────────────────────────────────────────────────────┤
+│ public/booking.html (Form Input)                            │
+│   ↓ JavaScript: app.js (validation)                         │
+│   ↓ Fetch API POST                                          │
+└─────────────────┬───────────────────────────────────────────┘
+                  │ HTTP POST /backend/api/create_transaction.php
+                  ↓
+┌─────────────────────────────────────────────────────────────┐
+│                  BACKEND SERVER (PHP)                       │
+├─────────────────────────────────────────────────────────────┤
+│ /backend/api/create_transaction.php                         │
+│   ↓ Validate input (form data)                              │
+│   ↓ Call config/midtrans.php (init Midtrans)                │
+│   ↓ Use config/database.php (save to DB)                    │
+│   ↓ Call Midtrans API (get snap token)                      │
+│   ↓ Return token + redirect URL (JSON)                      │
+└─────────────────┬───────────────────────────────────────────┘
+                  │ HTTP Response (JSON)
+                  ↓
+┌─────────────────────────────────────────────────────────────┐
+│                    VISITOR BROWSER                          │
+├─────────────────────────────────────────────────────────────┤
+│ JavaScript: midtrans-payment.js                             │
+│   ↓ Load Midtrans Snap JS                                   │
+│   ↓ Call snap.pay(token)                                    │
+│   ↓ Display Payment UI                                      │
+│   ↓ User enters payment details                             │
+│   ↓ Submit payment to Midtrans                              │
+└─────────────────┬───────────────────────────────────────────┘
+                  │
+                  ↓ (Async) Midtrans Webhook
+┌─────────────────────────────────────────────────────────────┐
+│                  BACKEND SERVER (PHP)                       │
+├─────────────────────────────────────────────────────────────┤
+│ /backend/api/midtrans_callback.php                          │
+│   ↓ Receive webhook from Midtrans                           │
+│   ↓ Verify signature (security)                             │
+│   ↓ Use config/database.php (update transaction)            │
+│   ↓ Update tiket status to 'Active'                         │
+│   ↓ Log transaction                                         │
+└─────────────────┬───────────────────────────────────────────┘
+                  │
+                  ↓
+┌─────────────────────────────────────────────────────────────┐
+│               DATABASE (MySQL/MariaDB)                      │
+├─────────────────────────────────────────────────────────────┤
+│ UPDATE tiket SET status='Active' WHERE id_tiket=X           │
+│ INSERT INTO transactions (order_id, status, ...)            │
+└─────────────────────────────────────────────────────────────┘
+```
+
+#### Admin Dashboard Flow
+```
+┌──────────────────────────────┐
+│   Admin Login Page           │
+│   /backend/auth/login.php    │
+└──────────────┬───────────────┘
+               ↓
+        Verify Credentials
+        (bcrypt check)
+               ↓
+    Create Session ($_SESSION)
+               ↓
+┌──────────────────────────────────────────┐
+│       Admin Dashboard                    │
+│       /backend/views/dashboard.php       │
+├──────────────────────────────────────────┤
+│ • Statistics (from database.php queries) │
+│ • Quick links to management pages        │
+└──────────────┬───────────────────────────┘
+      ┌────────┼────────┬────────────┐
+      ↓        ↓        ↓            ↓
+ pengunjung  tiket   review      reports
+   .php      .php     .php         .php
+  (CRUD)    (CRUD)   (View)    (Generate)
+      │        │        │           │
+      └────────┼────────┼───────────┘
+               ↓
+        config/database.php
+        (Helper functions)
+               ↓
+         MySQL Database
+```
+
+#### Configuration Loading & Environment Switching
+```
+┌─────────────────────────────────────────────────────────┐
+│  Application Start (.html/.php file loaded)             │
+└────────────────────┬────────────────────────────────────┘
+                     ↓
+          require_once 'backend/config/database.php'
+                     ↓
+         ┌──────────────────────────────┐
+         │  load_env_file() function    │
+         ├──────────────────────────────┤
+         │ 1. Open .env from root       │
+         │ 2. Parse KEY=VALUE format    │
+         │ 3. Load into $_ENV array     │
+         └────────────┬─────────────────┘
+                      ↓
+         Check DB_ENVIRONMENT variable
+                      ↓
+         ┌────────────┴────────────┐
+         ↓                         ↓
+    DB_ENV='local'          DB_ENV='live'
+         ↓                         ↓
+    LOCAL Credentials        LIVE Credentials
+    (localhost/root)         (InfiniteFree)
+         ↓                         ↓
+         └────────────┬────────────┘
+                      ↓
+        Create PDO Connection
+        (UTF8MB4 charset)
+                      ↓
+    Connection Ready for CRUD ops
+    (All 20+ backend files use it)
 ```
 
 ---
@@ -440,17 +674,17 @@ Response:
 ### System Architecture Diagram
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                   CLIENT SIDE (Browser)                      │
+│                   CLIENT SIDE (Browser)                     │
 ├─────────────────────────────────────────────────────────────┤
 │  index.html (Landing) │ booking.html │ review.html          │
 │  + CSS (style.css)    │    + SNAP    │  + Rating Form       │
 │  + JS (app.js, midtrans-payment.js)                         │
-└──────────────────┬────────────────────────────────────────────┘
+└──────────────────┬──────────────────────────────────────────┘
                    │ HTTP/HTTPS
-┌──────────────────▼────────────────────────────────────────────┐
-│                   SERVER SIDE (Apache + PHP)                  │
+┌──────────────────▼──────────────────────────────────────────┐
+│                   SERVER SIDE (Apache + PHP)                │
 ├──────────────────┬──────────────────────────────────────────┤
-│                  │                                            │
+│                  │                                          │
 │  ROUTING LAYER   │  API LAYER           │  VIEW LAYER       │
 │  - /index.html   │  - /backend/api/     │  - /backend/views/│
 │  - /booking.html │    * create_trans    │    * dashboard    │
@@ -473,14 +707,14 @@ Response:
                     │ - review          │
                     │ - user            │
                     │ - transactions    │
-                    └─────────────────────┘
+                    └───────────────────┘
                               │
-                    ┌─────────▼─────────────────┐
-                    │  External Services        │
-                    ├───────────────────────────┤
-                    │ Midtrans SNAP (Payment)   │
-                    │ + Webhook Callbacks       │
-                    └─────────────────────────────┘
+                ┌─────────────▼─────────────┐
+                │  External Services        │
+                ├───────────────────────────┤
+                │ Midtrans SNAP (Payment)   │
+                │ + Webhook Callbacks       │
+                └───────────────────────────┘
 ```
 
 ### User Flow Diagram
@@ -517,124 +751,33 @@ Dashboard (Statistics)
 
 ---
 
-## 👥 Panduan Pengguna
+## 👥 User Flows
 
-### Untuk Pengunjung
+### Visitor User Flow
+**Access**: [/public/index.html](/public/index.html)
 
-#### 1. Registrasi Akun Baru
-```
-1. Klik tombol "Book Your Ticket" atau pergi ke /booking.html
-2. Klik "Create an account" jika belum punya akun
-3. Isi form dengan:
-   - Nama lengkap
-   - No. HP (unik)
-   - Email (unik)
-   - Password (min 6 karakter)
-4. Klik "Register"
-5. Akun otomatis login, lanjut ke booking
-```
+`Register/Login → Browse → Book Ticket → Pay via Midtrans → Submit Review`
 
-#### 2. Login
-```
-1. Klik "Book Your Ticket"
-2. Isi email & password
-3. Klik "Sign In"
-4. Berhasil login, redirect ke halaman booking
-```
+**Key Pages**:
+- `/public/booking.html` - Booking form with Midtrans SNAP integration
+- `/public/review.html` - Review & rating submission
 
-#### 3. Pesan Tiket
-```
-1. Pilih tanggal berkunjung
-2. Pilih jenis tiket (Adult/Child/Family)
-3. Review harga total
-4. Klik "Complete Booking"
-5. Akan redirect ke Midtrans payment page
-```
+### Admin User Flow
+**Access**: [/backend/auth/login.php](/backend/auth/login.php)
 
-#### 4. Pembayaran
-```
-1. Di halaman Midtrans:
-   - Pilih metode pembayaran (kartu kredit, e-wallet, dll)
-   - Isi data pembayaran (sandbox: gunakan test card)
-   - Klik "Pay"
-2. Tunggu konfirmasi
-3. Akan redirect ke success page
-4. Email konfirmasi dikirim
-```
+**Default Credentials**: `admin` / `admin123`
 
-#### 5. Submit Review
-```
-1. Pergi ke halaman Review (/review.html)
-2. Login terlebih dahulu
-3. Isi form:
-   - Pilih rating (1-5 bintang)
-   - Tulis komentar/ulasan
-4. Klik "Submit Review"
-5. Review tampil di landing page
-```
+`Login → Dashboard → Manage Data → View Reports → Logout`
 
----
+**Management Pages**:
+- `/backend/views/dashboard.php` - Statistics overview
+- `/backend/views/pengunjung.php` - Visitor CRUD
+- `/backend/views/tiket.php` - Ticket management
+- `/backend/views/review.php` - Review moderation
+- `/backend/views/revenue_report.php` - Revenue analytics
+- `/backend/views/financial_report.php` - Payment transactions
 
-### Untuk Admin
-
-#### 1. Login Admin
-```
-URL: /pweb-project/backend/auth/login.php
-Username: admin
-Password: admin123
-
-(Note: Credentials disimpan di database table 'user')
-```
-
-#### 2. Dashboard
-```
-Admin dapat melihat:
-- Total pengunjung
-- Total tiket terjual
-- Total tiket aktif
-- Total review
-- Total revenue
-- Quick navigation ke halaman lain
-```
-
-#### 3. Manajemen Data
-```
-a) Pengunjung:
-   - View semua data pengunjung (nama, no. HP, email)
-   - Edit data pengunjung
-   - Hapus pengunjung
-   - Search & filter
-
-b) Tiket:
-   - View semua tiket yang terjual
-   - Edit status tiket (Active/Used/Expired)
-   - View detail transaksi
-   
-c) Review:
-   - View semua review dari pengunjung
-   - Lihat rating dan komentar
-   - Filter by rating
-```
-
-#### 4. Laporan
-```
-a) Revenue Report:
-   - Pilih periode (Daily/Weekly/Monthly)
-   - Lihat total revenue per periode
-   - Filter berdasarkan tanggal
-
-b) Financial Report:
-   - Lihat semua transaksi pembayaran
-   - Status: Settlement/Pending/Failed
-   - Payment method breakdown
-   - Total settlement amount
-```
-
-#### 5. Logout
-```
-Klik tombol "Logout" di navbar
-Session akan dihapus, redirect ke login page
-```
+**Detailed user guide**: See [public/setup.html](public/setup.html#features)
 
 ---
 
@@ -646,27 +789,105 @@ Session akan dihapus, redirect ke login page
 - MySQL 8.0 / MariaDB 10.5+
 - Composer (optional, jika menggunakan autoloader)
 
-### Instalasi Lokal (Development)
+### Quick Start (Development)
+1. Import database: `database/schema.sql` ke MySQL
+2. Edit `.env` file dengan database credentials
+3. Set `DB_ENVIRONMENT=local` (Laragon) atau `DB_ENVIRONMENT=live` (InfiniteFree)
+4. Access: `http://localhost/pweb-project`
+5. Admin login: `admin` / `admin123`
 
-#### 1. Setup Database
-```bash
-# Copy file database
-cd database/
-mysql -u root -p < schema.sql
+### Multi-Environment Database Support
+- Semua 20+ backend files otomatis switch database saat `.env` diubah
+- Tidak perlu perubahan kode
+- Credentials aman di `.env` (excluded dari git)
 
-# Atau manual:
-# - Buka phpMyAdmin
-# - Buat database baru: 'mangrove_wonorejo'
-# - Import file schema.sql
+**📍 Untuk panduan instalasi lengkap, lihat: [public/setup.html](public/setup.html)**
+
+---
+
+## �️ Database & Testing Tools
+
+### Database Configuration Architecture ⭐ NEW
+
+```
+┌─────────────────────────────────────────────────────────┐
+│          MULTI-ENVIRONMENT DATABASE SUPPORT             │
+├─────────────────────────────────────────────────────────┤
+│                                                         │
+│  .env File (Root Project)                               │
+│  └─ DB_ENVIRONMENT=local (or 'live')                    │
+│      │                                                  │
+│      ├─→ LOCAL: Laragon Development                     │
+│      │   ├─ Host: localhost                             │
+│      │   ├─ User: root                                  │
+│      │   ├─ Database: mangrove_wonorejo                 │
+│      │   └─ Status: Development & Testing               │
+│      │                                                  │
+│      └─→ LIVE: InfiniteFree Production                  │
+│          ├─ Host: sql105.infinityfree.com               │
+│          ├─ User: if0_40676823                          │
+│          ├─ Database: if0_40676823_mangrove_wonorejo    │
+│          └─ Status: Production Deployment               │
+│                                                         │
+│  Features:                                              │
+│  - Single config file for all environments              │
+│  - Zero code changes to switch databases                │
+│  - Automatic credential loading                         │
+│  - Credentials secured (.env in .gitignore)             │
+│  - Testing tools included                               │
+│                                                         │
+└─────────────────────────────────────────────────────────┘
 ```
 
-#### 2. Update Konfigurasi Database ✨ **NEW MULTI-ENVIRONMENT SUPPORT**
+### Testing Tools
 
-**Edit file `/.env` di root project:**
+#### 1. **Simple Connection Test** (Browser)
+```
+URL: http://localhost/pweb-project/test-db.php
+Purpose: Quick connection verification
+Output:
+  ✓ Current environment (LOCAL/LIVE)
+  ✓ Connection status
+  ✓ List of tables
+  ✓ Row counts per table
+```
 
+#### 2. **Web-Based Debugger** (Browser)
+```
+URL: http://localhost/pweb-project/backend/config/debug.php
+Purpose: Visual interface for detailed diagnostics
+Features:
+  ✓ Current configuration display
+  ✓ Connection status
+  ✓ Database statistics
+  ✓ Environment variables
+  ✓ Visual table information
+```
+
+#### 3. **CLI Testing Tool** (Command Line)
+```
+Location: backend/config/test-config.php
+
+Commands:
+  php backend/config/test-config.php check     # Show config
+  php backend/config/test-config.php local     # Test LOCAL DB
+  php backend/config/test-config.php live      # Test LIVE DB
+  php backend/config/test-config.php all       # Test both
+  php backend/config/test-config.php tables    # List tables
+
+Output:
+  ✓ Configuration details
+  ✓ Connection status per environment
+  ✓ Table list with row counts
+  ✓ Detailed error messages if any
+```
+
+### Configuration File Structure
+
+**File: `.env` (Root Project)**
 ```env
-# Pilih environment: local atau live
-DB_ENVIRONMENT=local
+# Environment Selection (Required)
+DB_ENVIRONMENT=local    # Change to 'live' for production
 
 # LOCAL DATABASE (Laragon Development)
 LOCAL_DB_HOST=localhost
@@ -683,92 +904,45 @@ LIVE_DB_NAME=if0_40676823_mangrove_wonorejo
 LIVE_DB_PORT=3306
 ```
 
-**✨ Keuntungan sistem baru:**
-- ✅ Hanya ubah 1 baris untuk switch database
-- ✅ Tidak perlu edit file PHP lagi
-- ✅ Credentials aman di `.env` (auto-excluded dari git)
-- ✅ Testing tools included
+### How It Works
 
-#### 3. Test Database Connection
-```bash
-# Browser test
-http://localhost/pweb-project/test-db.php
+1. **Application loads `/backend/config/database.php`**
+   - Reads `.env` file from project root
+   - Parses environment variables
 
-# Web debugger
-http://localhost/pweb-project/backend/config/debug.php
+2. **System detects environment**
+   - Checks `DB_ENVIRONMENT` setting
+   - Selects appropriate credentials
 
-# CLI test (Laragon Terminal)
-php test-db.php
-php backend/config/test-config.php check
+3. **Creates PDO Connection**
+   - Uses selected database credentials
+   - Sets UTF8MB4 charset
+   - Enables error mode
+
+4. **All queries use this connection**
+   - No code changes needed
+   - Automatic database switching
+   - Secure credential management
+
+### Quick Switch Guide
+
+**To use LOCAL (Development):**
+```env
+DB_ENVIRONMENT=local
 ```
+→ Application connects to localhost/mangrove_wonorejo
 
-#### 4. Setup Midtrans (Sandbox)
-```php
-// Buka backend/config/midtrans.php
-// Masukkan credential dari Midtrans Dashboard:
-define('MIDTRANS_SERVER_KEY', 'SB-Mid-server-XXXX');
-define('MIDTRANS_CLIENT_KEY', 'SB-Client-XXXX');
-define('MIDTRANS_MERCHANT_ID', 'G1234567');
+**To use LIVE (Production):**
+```env
+DB_ENVIRONMENT=live
 ```
+→ Application connects to InfiniteFree/if0_40676823_mangrove_wonorejo
 
-#### 5. Jalankan Server
-```bash
-# Jika menggunakan Laragon
-# Server otomatis start, akses: http://localhost/pweb-project
-
-# Atau manual (buat di htdocs/www):
-# http://localhost/pweb-project/
-```
-
-#### 6. Test Login & System
-```
-Admin Login: http://localhost/pweb-project/backend/auth/login.php
-Username: admin
-Password: admin123
-
-Visitor: http://localhost/pweb-project/public/index.html
-```
-
----
-### Instalasi di InfinityFree (Production)
-
-#### Step 1: Push ke GitHub
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-git remote add origin https://github.com/USERNAME/mangrovegitour.git
-git push -u origin main
-```
-
-#### Step 2: Setup di InfinityFree
-```
-1. Login ke InfinityFree
-2. Create new account / domain
-3. Go to File Manager
-4. Upload code OR setup Git deployment
-5. Point domain ke public folder
-```
-
-#### Step 3: Database Setup
-```
-1. Di InfinityFree, create MySQL database
-2. Get credentials: hostname, user, password
-3. Update backend/config/database.php dengan credentials baru
-4. Import schema.sql via phpMyAdmin
-```
-
-#### Step 4: Verify Installation
-```
-- Akses domain Anda
-- Test landing page
-- Test admin login
-- Test booking flow
-```
+**Then test with:** `php test-db.php` or open `http://localhost/pweb-project/test-db.php`
 
 ---
 
-## 📊 Struktur Database
+## �📊 Struktur Database
 
 ### Entity-Relationship Diagram (ERD)
 ```
@@ -777,7 +951,7 @@ git push -u origin main
 ├──────────────────┤
 │ id_pengunjung(PK)│
 │ nama             │
-│ no_hp            │◀─────────────┐
+│ no_hp            │◀────────────┐
 │ email            │              │
 │ username         │              │ 1:N
 │ password         │              │
@@ -788,7 +962,7 @@ git push -u origin main
          │                        │
          │ 1:N            ┌───────┴──────────┐
          │                │                  │
-         │        ┌────────▼────────┐  ┌────▼──────────┐
+         │        ┌───────▼─────────┐  ┌─────▼─────────┐
          │        │     tiket       │  │    review     │
          │        ├─────────────────┤  ├───────────────┤
          │        │ id_tiket (PK)   │  │ id_review(PK) │
@@ -947,79 +1121,22 @@ if ($notification->transaction_status == 'settlement') {
 
 ---
 
-## ✅ Testing
+## ✅ Testing Status
 
-### Manual Testing Checklist
+**All functionality tested and working:**
+- ✅ Frontend: Landing, booking, review forms, carousels
+- ✅ Visitor Flow: Registration → Login → Booking → Payment → Review
+- ✅ Admin Flow: Dashboard → Data management → Reports
+- ✅ Database: All tables, relationships, indexes functional
+- ✅ Security: Password hashing, sessions, SQL injection prevention
+- ✅ Payment: Midtrans SNAP with webhook integration
 
-```markdown
-## Frontend Testing
-- [ ] Landing page load tanpa error
-- [ ] Navigation menu responsive
-- [ ] Gallery carousel berfungsi
-- [ ] Hero carousel auto-slide
-- [ ] Review section display dengan baik
-- [ ] Mobile responsive (test di berbagai ukuran)
-
-## Visitor Flow
-- [ ] Registrasi akun baru berhasil
-- [ ] Login dengan akun yang baru dibuat
-- [ ] Booking form dapat diisi dengan benar
-- [ ] Validation error muncul jika data tidak valid
-- [ ] Payment gateway Midtrans muncul
-- [ ] Test payment dengan card sandbox Midtrans
-- [ ] Webhook callback diproses (cek database)
-- [ ] Review form dapat disubmit
-
-## Admin Flow
-- [ ] Admin login berhasil
-- [ ] Dashboard menampilkan statistik benar
-- [ ] Pengunjung dapat dilihat di daftar
-- [ ] Tiket dapat diedit status
-- [ ] Review dapat dilihat dengan rating
-- [ ] Revenue report generate dengan benar
-- [ ] Financial report menampilkan transaksi
-- [ ] Admin logout berhasil
-
-## Database
-- [ ] Data terisi dengan benar di setiap table
-- [ ] Foreign key relationship berfungsi
-- [ ] Indexes meningkatkan query speed
-- [ ] Timestamp otomatis terisi
-
-## Security
-- [ ] Password tersimpan dengan hash (bukan plaintext)
-- [ ] Session tidak dapat diakses tanpa login
-- [ ] SQL prepared statements digunakan
-- [ ] Logout bersih menghapus session
-```
+**Detailed testing procedures**: See [public/setup.html](public/setup.html#testing)
 
 ---
 
 ## 🎬 Video Demonstrasi
-
-### Panduan Membuat Video Demo (15-20 menit)
-
-Lihat file [docs/guide/DEMO_GUIDE.md](docs/guide/DEMO_GUIDE.md) untuk:
-- ✅ Struktur video & timing
-- ✅ Script / talking points
-- ✅ Tools yang diperlukan
-- ✅ Checklist sebelum recording
-- ✅ Cara upload ke YouTube
-- ✅ Contoh narasi untuk setiap bagian
-
-**Ringkas:**
-```
-0:00 - Intro (30 sec) - Perkenalan project, tujuan, teknologi
-0:30 - Demo Landing Page (2 min) - Tampilkan semua section
-2:30 - Demo Booking Flow (4 min) - Register → Book → Payment
-6:30 - Demo Admin Panel (4 min) - Login → Dashboard → Reports
-10:30 - Code Walkthrough (6 min) - Frontend, Backend, Database
-16:30 - Kesimpulan (3 min) - Summary, learning outcomes
-```
-
-Link akan dikumpulkan ke README.md setelah recording selesai.
-
----
+- **YouTube Link**: [Demo Video](https://its.id/m/VideoDemoFP-Kel19-PWebB)
 
 ## 👥 Pembagian Jobdesk
 
@@ -1027,114 +1144,107 @@ Link akan dikumpulkan ke README.md setelah recording selesai.
 
 | No. | Nama | NIM | Role | Jobdesk | Status |
 |-----|------|-----|------|---------|--------|
-| 1 | Royan Habibi Alfatih | 5025241115 | Project Lead & Backend Dev | - Backend architecture & API<br>- Database design & implementation<br>- Payment gateway integration (Midtrans)<br>- Admin dashboard & reports | ✅ Complete |
-| 2 | Bara Semangat Rohmani | 5025241144 | Frontend Dev & UI/UX | - Landing page design<br>- Booking & review forms<br>- Color palette & CSS standardization<br>- Responsive design implementation<br>- JavaScript interactivity | ✅ Complete |
-| Team | Kelompok 19 | - | Collective | - Database schema design<br>- Testing & quality assurance<br>- Documentation<br>- Deployment planning | ✅ Complete |
+| 1 | Royan Habibi Alfatih | 5025241115 | Project Lead & Payment/Design Lead | - Project planning & requirement gathering<br>- Midtrans SNAP payment integration<br>- Design landing page & hero section<br>- Color palette standardization (CSS variables)<br>- Image carousel (hero & gallery)<br>- GitHub version control & collaboration<br>- Deployment strategy planning |
+| 2 | Bara Semangat Rohmani | 5025241144 | Full-Stack Developer | - Database schema design & implementation<br>- Backend API endpoints (7 endpoints)<br>- Authentication & session management<br>- Admin dashboard & real-time statistics<br>- Revenue & financial reports<br>- Webhook callback handling<br>- Error handling & logging<br>- Responsive design (mobile-first)<br>- Booking & review forms<br>- Review rating component & interactivity<br>- Bootstrap 5 customization<br>- Visitor registration & login<br>- End-to-end testing<br>- Documentation & README writing<br>- Problem analysis & troubleshooting |
 
 ### Kontribusi Individual
 
-**Royan Habibi Alfatih (5025241115):**
+**Royan Habibi Alfatih (5025241115) - Project Lead & Payment/Design Lead:**
+- ✅ Planning & requirement gathering
+- ✅ Midtrans SNAP payment integration
+- ✅ Design landing page dengan hero section & gallery
+- ✅ Color palette standardization (CSS variables)
+- ✅ Image carousel (hero & gallery) dengan Bootstrap Carousel
+- ✅ GitHub version control & collaboration
+- ✅ Deployment strategy planning
+- ✅ Project leadership & coordination
+
+**Bara Semangat Rohmani (5025241144) - Full-Stack Developer:**
 - ✅ Merancang & membuat database schema (5 tables, relationships, indexes)
 - ✅ Implementasi backend API endpoints (7 endpoints)
 - ✅ Authentication & session management system
-- ✅ Midtrans SNAP payment integration
 - ✅ Admin dashboard dengan statistics real-time
 - ✅ Revenue & financial report generation
 - ✅ Webhook callback handling
 - ✅ Error handling & logging
-
-**Bara Semangat Rohmani (5025241144):**
-- ✅ Design landing page dengan hero section & gallery
 - ✅ Implementasi responsive design (mobile-first)
 - ✅ Booking form dengan validation
 - ✅ Review & rating component dengan JavaScript interactivity
-- ✅ Color palette standardization (CSS variables)
 - ✅ Bootstrap 5 customization & component styling
-- ✅ Image carousel (hero & gallery) dengan Bootstrap Carousel
 - ✅ Visitor registration & login forms
-
-**Kolaborasi Bersama:**
-- ✅ Planning & requirement gathering
 - ✅ Testing end-to-end (manual testing)
 - ✅ Documentation & README writing
-- ✅ GitHub version control & collaboration
 - ✅ Problem analysis & troubleshooting
-- ✅ Deployment strategy planning
-
-### Evaluasi Kontribusi
-
-| Aspek | Royan | Bara | Kolaborasi |
-|-------|-------|------|------------|
-| Code Quality | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
-| Functionality | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
-| Documentation | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
-| Problem Solving | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
-| Attendance | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | N/A |
 
 ---
 
-## 🔗 Resources
+## 🔗 Documentation & Resources
 
-### Dokumentasi Teknis Project
-- [docs/problem.md](docs/problem.md) - Issue tracker & status
-- [docs/guide/DEMO_GUIDE.md](docs/guide/DEMO_GUIDE.md) - Panduan video demonstrasi
-- [docs/summary/ANALYSIS_REPORT.md](docs/summary/ANALYSIS_REPORT.md) - Analisis teknis lengkap
-- [database/schema.sql](database/schema.sql) - Database schema
+### Installation & Setup
+- **[public/setup.html](public/setup.html)** - Complete setup guide with prerequisites, step-by-step installation, Midtrans setup, troubleshooting
 
-### 🆕 Database Configuration Documentation
-- [docs/DATABASE_MULTI_ENV.md](docs/DATABASE_MULTI_ENV.md) - **📍 Quick Start Guide**
-- [docs/DATABASE_CONFIG_README.md](docs/DATABASE_CONFIG_README.md) - **Main README**
-- [docs/guide/DATABASE_CONFIG_GUIDE.md](docs/guide/DATABASE_CONFIG_GUIDE.md) - Detailed setup guide
-- [docs/guide/ENVIRONMENT_VARIABLES_REFERENCE.md](docs/guide/ENVIRONMENT_VARIABLES_REFERENCE.md) - Variable reference
-- [docs/guide/ARCHITECTURE_DIAGRAM.md](docs/guide/ARCHITECTURE_DIAGRAM.md) - System architecture
-- [docs/guide/DATABASE_SETUP_SUMMARY.md](docs/guide/DATABASE_SETUP_SUMMARY.md) - Setup summary
-- [docs/guide/DATABASE_DOCS_INDEX.md](docs/guide/DATABASE_DOCS_INDEX.md) - Documentation index
-- [docs/summary/DATABASE_CONFIG_IMPLEMENTATION.md](docs/summary/DATABASE_CONFIG_IMPLEMENTATION.md) - Complete implementation summary
-- [docs/DATABASE_CONFIG_CHECKLIST.md](docs/DATABASE_CONFIG_CHECKLIST.md) - Verification checklist
-- [IMPLEMENTATION_COMPLETE.md](IMPLEMENTATION_COMPLETE.md) - Final summary
+### Technical Documentation
+- [database/schema.sql](database/schema.sql) - Database schema with all tables and relationships
+- [docs/guide/ARCHITECTURE_DIAGRAM.md](docs/guide/ARCHITECTURE_DIAGRAM.md) - System architecture diagrams
+- [docs/DATABASE_MULTI_ENV.md](docs/DATABASE_MULTI_ENV.md) - Multi-environment database configuration
+- [docs/summary/ANALYSIS_REPORT.md](docs/summary/ANALYSIS_REPORT.md) - Technical analysis report
+- [docs/problem.md](docs/problem.md) - Known issues and troubleshooting
+
+### Testing Tools (Built-in)
+- `test-db.php` - Quick browser test for database connection
+- `/backend/config/debug.php` - Visual web debugger
+- `/backend/config/test-config.php` - CLI testing tool
 
 ### External References
-- **Midtrans Docs**: https://docs.midtrans.com/
-- **Bootstrap 5 Docs**: https://getbootstrap.com/docs/5.3/
-- **PHP PDO Tutorial**: https://www.php.net/manual/en/class.pdo.php
-- **HTTP Status Codes**: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
-
-### Source Code Repository
-```
-GitHub: https://github.com/USERNAME/mangrovegitour
-Main Branch: main
-Branch Strategy: 
-  - main (production-ready)
-  - develop (development)
-  - feature/* (feature branches)
-```
+- **Midtrans**: https://docs.midtrans.com/ - Payment gateway documentation
+- **Bootstrap 5**: https://getbootstrap.com/docs/5.3/ - Frontend framework
+- **PHP PDO**: https://www.php.net/manual/en/class.pdo.php - Database abstraction
 
 ---
 
-## 📄 Project Info
+## 📄 Project Information
 
-- **Project Name**: MangroveTour
-- **Institution**: Institut Teknologi Sepuluh Nopember (ITS)
-- **Course**: EF234301 Pemrograman Web
-- **Semester**: Ganjil 2025/2026
-- **Class**: A
-- **Group**: 19
-- **Period**: 24 November - 14 Desember 2025
-- **Lecturer**: Fajar Baskoro, S.Kom., M.T.
+- **Project Name:** MangroveTour
+- **Institution:** Institut Teknologi Sepuluh Nopember (ITS)
+- **Course:** EF234301 Pemrograman Web
+- **Semester:** Ganjil 2025/2026
+- **Class:** A
+- **Group:** 19
+- **Period:** 24 November - 14 Desember 2025
+- **Lecturer:** Fajar Baskoro, S.Kom., M.T.
+- **Team:** Royan Habibi Alfatih & Bara Semangat Rohmani
 
 ### License
-Public Domain (CC0) - Free to use, modify, distribute without attribution.
+Public Domain (CC0) - Free to use, modify, and distribute without attribution.
 
 ### Contact & Support
 For technical issues or questions:
-- 📧 Email: [group email if needed]
-- 💬 Discussion: Check GitHub Issues
-- 📋 Documentation: See docs/ folder
+- 📧 Email: Group email (if needed)
+- 💬 GitHub Issues: Check project discussions
+- 📋 Documentation: Comprehensive guides in `/docs` folder
+- 🆘 Troubleshooting: See docs/DATABASE_MULTI_ENV.md or docs/problem.md
 
 ---
 
-**Last Updated**: 14 Desember 2025  
-**Status**: ✅ Production Ready for Demo  
-**Next Phase**: Deployment & Maintenance  
+## 📈 Development Timeline
+
+- **Phase 1 (24 Nov - 30 Nov):** Planning & Requirements
+- **Phase 2 (1 Dec - 10 Dec):** Frontend & Backend Development
+- **Phase 3 (11 Dec - 12 Dec):** Testing & Integration
+- **Phase 4 (13 Dec - 14 Dec):** Database Config & Documentation
+
+**Status:** ✅ All phases complete - Production Ready
 
 ---
+
+**Last Updated:** 14 Desember 2025  
+**Version:** 1.0  
+**Status:** ✅ **PRODUCTION READY FOR DEPLOYMENT**  
+**Next Phase:** Deployment to Production & Ongoing Maintenance
+
+---
+
+🎉 **Thank you for using MangroveTour!** 🎉
+
+For the latest updates and documentation, visit the `/docs` folder.
+
