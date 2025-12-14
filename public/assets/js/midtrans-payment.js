@@ -6,27 +6,9 @@
  * 1. Communicates with backend to create transactions
  * 2. Initializes Midtrans SNAP payment gateway
  * 3. Handles payment callbacks
+ * 
+ * NOTE: Requires base path detection (getBasePath/apiUrl) to be loaded first
  */
-
-/**
- * Auto-detect base path (works on both local /pweb-project and live mangrovetour.gt.tc)
- */
-function getBasePath() {
-    const currentPath = window.location.pathname;
-    if (currentPath.includes('/pweb-project/')) {
-        return '/pweb-project';
-    }
-    return '';
-}
-
-const APP_BASE_PATH = getBasePath();
-
-/**
- * Helper function to construct API URLs
- */
-function apiUrl(path) {
-    return APP_BASE_PATH + path;
-}
 
 class MidtransPaymentHandler {
     constructor(clientKey) {
