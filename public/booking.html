@@ -172,28 +172,8 @@
     <script src="https://app.sandbox.midtrans.com/snap/snap.js"
             data-client-key="SB-Mid-client-yGzpX_Cn3fhtimVH"></script>
 
-    <!-- Base path detection - MUST be loaded first -->
-    <script>
-        /**
-         * Auto-detect base path (works on both local /pweb-project and live mangrovetour.gt.tc)
-         */
-        function getBasePath() {
-            const currentPath = window.location.pathname;
-            if (currentPath.includes('/pweb-project/')) {
-                return '/pweb-project';
-            }
-            return '';
-        }
-
-        const APP_BASE_PATH = getBasePath();
-
-        /**
-         * Helper function to construct API URLs
-         */
-        function apiUrl(path) {
-            return APP_BASE_PATH + path;
-        }
-    </script>
+    <!-- Base path detection - MUST be loaded first, before other scripts -->
+    <script src="assets/js/base-path.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/app.js"></script>
