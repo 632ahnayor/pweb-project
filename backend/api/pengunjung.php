@@ -108,5 +108,5 @@ try {
 } catch (Exception $e) {
     http_response_code(400);
     clean_for_json();
-    echo json_encode(['success' => false, 'message' => $e->getMessage()]);}
+    echo json_encode(['success' => false, 'message' => $e->getMessage()]);
 }
