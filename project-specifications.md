@@ -46,10 +46,20 @@ MangroveTour adalah sistem manajemen berbasis web untuk lokasi ekowisata. Sistem
 - Front-End: HTML5, CSS3, Bootstrap, JavaScript
 - Back-End: PHP (versi 8.x) dengan cURL untuk API calls
 - Database: MySQL / MariaDB
-- Server: Apache (XAMPP / Laragon)
+- Server: Apache (XAMPP / Laragon / InfiniteFree cPanel)
 - Tools: VS Code, phpMyAdmin
 - **Integrasi API**: Midtrans SNAP Payment Gateway (Sandbox mode)
 - **Security**: Prepared statements, password hashing (bcrypt), session-based auth, webhook signature validation
+
+### 🆕 Database Configuration System
+- **Multi-Environment Support:** Easily switch between LOCAL (Laragon) and LIVE (InfiniteFree)
+- **Environment Variables:** `.env` file untuk secure credential management
+- **Automatic Loading:** Environment variables otomatis terbaca dari `.env`
+- **Zero Code Changes:** Cukup ubah 1 baris di `.env` untuk switch database
+- **Built-in Testing Tools:** Connection testers untuk browser, CLI, dan web debugger
+- **Secure Credentials:** `.env` file protected (excluded dari git)
+- **Production Ready:** Tested dan siap deploy ke InfiniteFree
+
 
 <br>
 

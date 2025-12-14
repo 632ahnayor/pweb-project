@@ -151,14 +151,31 @@ backend/
 
 #### Key Implementation Details
 
-**Database Connection (database.php)**
+**Database Connection (database.php)** ✨ **NEW: Multi-Environment Support**
 ```php
-// Safe database connection dengan PDO
-$pdo = new PDO(
-    "mysql:host=localhost;dbname=mangrovegitour;charset=utf8mb4",
-    'root', '',
-    [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
-);
+// Smart database connection - automatically load from .env
+// Supports LOCAL (Laragon) and LIVE (InfiniteFree)
+
+function load_env_file() {
+    // Load .env configuration automatically
+    // Parse DB_ENVIRONMENT variable
+    // Select appropriate database credentials
+}
+
+// Configuration via .env file
+DB_ENVIRONMENT=local  // or 'live' for production
+
+// LOCAL DATABASE (Laragon)
+LOCAL_DB_HOST=localhost
+LOCAL_DB_USER=root
+LOCAL_DB_PASS=
+LOCAL_DB_NAME=mangrove_wonorejo
+
+// LIVE DATABASE (InfiniteFree)
+LIVE_DB_HOST=sql105.infinityfree.com
+LIVE_DB_USER=if0_40676823
+LIVE_DB_PASS=Mangrovet0ur
+LIVE_DB_NAME=if0_40676823_mangrove_wonorejo
 
 // Helper functions untuk CRUD
 - execute_query()      // Execute prepared statements
@@ -168,6 +185,14 @@ $pdo = new PDO(
 - update_data()        // Update existing record
 - delete_data()        // Delete record
 ```
+
+**🆕 Database Configuration Features:**
+- ✅ Single `.env` file for environment management
+- ✅ Easy switch between LOCAL & LIVE (1 line change)
+- ✅ Automatic credential loading
+- ✅ No code changes needed to switch databases
+- ✅ Credentials protected (`.env` in `.gitignore`)
+- ✅ Testing tools included (test-db.php, debug.php, test-config.php)
 
 **Authentication (auth_helper.php)**
 ```php
@@ -631,21 +656,53 @@ mysql -u root -p < schema.sql
 
 # Atau manual:
 # - Buka phpMyAdmin
-# - Buat database baru: 'mangrovegitour'
+# - Buat database baru: 'mangrove_wonorejo'
 # - Import file schema.sql
 ```
 
-#### 2. Update Konfigurasi
-```php
-// Buka backend/config/database.php
-// Sesuaikan dengan database lokal:
-$host = 'localhost';
-$user = 'root';
-$password = ''; // atau password Anda
-$dbname = 'mangrovegitour';
+#### 2. Update Konfigurasi Database ✨ **NEW MULTI-ENVIRONMENT SUPPORT**
+
+**Edit file `/.env` di root project:**
+
+```env
+# Pilih environment: local atau live
+DB_ENVIRONMENT=local
+
+# LOCAL DATABASE (Laragon Development)
+LOCAL_DB_HOST=localhost
+LOCAL_DB_USER=root
+LOCAL_DB_PASS=
+LOCAL_DB_NAME=mangrove_wonorejo
+LOCAL_DB_PORT=3306
+
+# LIVE DATABASE (InfiniteFree Production)
+LIVE_DB_HOST=sql105.infinityfree.com
+LIVE_DB_USER=if0_40676823
+LIVE_DB_PASS=Mangrovet0ur
+LIVE_DB_NAME=if0_40676823_mangrove_wonorejo
+LIVE_DB_PORT=3306
 ```
 
-#### 3. Setup Midtrans (Sandbox)
+**✨ Keuntungan sistem baru:**
+- ✅ Hanya ubah 1 baris untuk switch database
+- ✅ Tidak perlu edit file PHP lagi
+- ✅ Credentials aman di `.env` (auto-excluded dari git)
+- ✅ Testing tools included
+
+#### 3. Test Database Connection
+```bash
+# Browser test
+http://localhost/pweb-project/test-db.php
+
+# Web debugger
+http://localhost/pweb-project/backend/config/debug.php
+
+# CLI test (Laragon Terminal)
+php test-db.php
+php backend/config/test-config.php check
+```
+
+#### 4. Setup Midtrans (Sandbox)
 ```php
 // Buka backend/config/midtrans.php
 // Masukkan credential dari Midtrans Dashboard:
@@ -654,7 +711,7 @@ define('MIDTRANS_CLIENT_KEY', 'SB-Client-XXXX');
 define('MIDTRANS_MERCHANT_ID', 'G1234567');
 ```
 
-#### 4. Jalankan Server
+#### 5. Jalankan Server
 ```bash
 # Jika menggunakan Laragon
 # Server otomatis start, akses: http://localhost/pweb-project
@@ -663,7 +720,7 @@ define('MIDTRANS_MERCHANT_ID', 'G1234567');
 # http://localhost/pweb-project/
 ```
 
-#### 5. Test Login
+#### 6. Test Login & System
 ```
 Admin Login: http://localhost/pweb-project/backend/auth/login.php
 Username: admin
@@ -673,7 +730,6 @@ Visitor: http://localhost/pweb-project/public/index.html
 ```
 
 ---
-
 ### Instalasi di InfinityFree (Production)
 
 #### Step 1: Push ke GitHub
@@ -1019,11 +1075,23 @@ Link akan dikumpulkan ke README.md setelah recording selesai.
 
 ## 🔗 Resources
 
-### Dokumentasi Teknis
+### Dokumentasi Teknis Project
 - [docs/problem.md](docs/problem.md) - Issue tracker & status
 - [docs/guide/DEMO_GUIDE.md](docs/guide/DEMO_GUIDE.md) - Panduan video demonstrasi
 - [docs/summary/ANALYSIS_REPORT.md](docs/summary/ANALYSIS_REPORT.md) - Analisis teknis lengkap
 - [database/schema.sql](database/schema.sql) - Database schema
+
+### 🆕 Database Configuration Documentation
+- [docs/DATABASE_MULTI_ENV.md](docs/DATABASE_MULTI_ENV.md) - **📍 Quick Start Guide**
+- [docs/DATABASE_CONFIG_README.md](docs/DATABASE_CONFIG_README.md) - **Main README**
+- [docs/guide/DATABASE_CONFIG_GUIDE.md](docs/guide/DATABASE_CONFIG_GUIDE.md) - Detailed setup guide
+- [docs/guide/ENVIRONMENT_VARIABLES_REFERENCE.md](docs/guide/ENVIRONMENT_VARIABLES_REFERENCE.md) - Variable reference
+- [docs/guide/ARCHITECTURE_DIAGRAM.md](docs/guide/ARCHITECTURE_DIAGRAM.md) - System architecture
+- [docs/guide/DATABASE_SETUP_SUMMARY.md](docs/guide/DATABASE_SETUP_SUMMARY.md) - Setup summary
+- [docs/guide/DATABASE_DOCS_INDEX.md](docs/guide/DATABASE_DOCS_INDEX.md) - Documentation index
+- [docs/summary/DATABASE_CONFIG_IMPLEMENTATION.md](docs/summary/DATABASE_CONFIG_IMPLEMENTATION.md) - Complete implementation summary
+- [docs/DATABASE_CONFIG_CHECKLIST.md](docs/DATABASE_CONFIG_CHECKLIST.md) - Verification checklist
+- [IMPLEMENTATION_COMPLETE.md](IMPLEMENTATION_COMPLETE.md) - Final summary
 
 ### External References
 - **Midtrans Docs**: https://docs.midtrans.com/

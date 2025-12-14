@@ -61,17 +61,44 @@
     <li>Password: <code>operator123</code></li>
 </ul>
 
-<h3>2. <strong>Configure Database Connection</strong></h3>
+<h3>2. <strong>Configure Database Connection (Multi-Environment Support)</strong></h3>
 
-<p>Edit <code>/backend/config/database.php</code>:</p>
+<p><strong>✨ NEW FEATURE:</strong> MangroveTour now supports <strong>LOCAL</strong> (Laragon) and <strong>LIVE</strong> (InfiniteFree) database with single config file!</p>
 
-<pre><code class="language-php">
-define('DB_HOST', 'localhost');      // Your database host
-define('DB_USER', 'root');           // Your database username
-define('DB_PASS', '');               // Your database password
-define('DB_NAME', 'mangrove_wonorejo');
-define('DB_PORT', 3306);             // Usually 3306
+<p>Edit <code>/.env</code> file at project root:</p>
+
+<pre><code class="language-env">
+# Choose environment: local or live
+DB_ENVIRONMENT=local
+
+# LOCAL DATABASE (Laragon Development)
+LOCAL_DB_HOST=localhost
+LOCAL_DB_USER=root
+LOCAL_DB_PASS=
+LOCAL_DB_NAME=mangrove_wonorejo
+LOCAL_DB_PORT=3306
+
+# LIVE DATABASE (InfiniteFree Production)
+LIVE_DB_HOST=sql105.infinityfree.com
+LIVE_DB_USER=if0_40676823
+LIVE_DB_PASS=Mangrovet0ur
+LIVE_DB_NAME=if0_40676823_mangrove_wonorejo
+LIVE_DB_PORT=3306
 </code></pre>
+
+<p><strong>How to Switch:</strong></p>
+<ul>
+    <li>For <strong>Development:</strong> Set <code>DB_ENVIRONMENT=local</code></li>
+    <li>For <strong>Production:</strong> Set <code>DB_ENVIRONMENT=live</code></li>
+    <li>No code changes needed - application auto-detects and connects!</li>
+</ul>
+
+<p><strong>⚠️ Important:</strong></p>
+<ul>
+    <li>File <code>.env</code> is automatically excluded from git (in <code>.gitignore</code>)</li>
+    <li>Template <code>.env.example</code> is provided for reference</li>
+    <li>Never commit <code>.env</code> to repository</li>
+</ul>
 
 <h3>3. <strong>Configure Apache Virtual Host (Optional)</strong></h3>
 
@@ -105,6 +132,31 @@ chmod -R 755 /path/to/pweb-project
 # Windows (via XAMPP Terminal)
 # Usually automatic, no action needed
 </code></pre>
+
+<hr>
+
+<h2>🧪 Testing Database Connection</h2>
+
+<p><strong>After configuration, test the connection:</strong></p>
+
+<h3>Option 1: Browser Test</h3>
+<pre><code>
+http://localhost/pweb-project/test-db.php
+</code></pre>
+
+<h3>Option 2: Web Debugger</h3>
+<pre><code>
+http://localhost/pweb-project/backend/config/debug.php
+</code></pre>
+
+<h3>Option 3: CLI Test (Laragon Terminal)</h3>
+<pre><code class="language-bash">
+php test-db.php
+php backend/config/test-config.php check
+php backend/config/test-config.php tables
+</code></pre>
+
+<p><strong>Expected Output:</strong> Connection successful with list of tables and row counts</p>
 
 <hr>
 

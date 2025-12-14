@@ -2,14 +2,55 @@
 /**
  * Database Configuration
  * MangroveTour - Mangrove Wonorejo Ecotourism Management System
+ * Support untuk Local dan Live Database
  */
 
-// Database connection parameters
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_NAME', 'mangrove_wonorejo');
-define('DB_PORT', 3306);
+// Load environment variables dari .env file
+function load_env_file() {
+    $env_file = realpath(__DIR__ . '/../../.env');
+    if (!file_exists($env_file)) {
+        // Fallback ke .env.example jika .env tidak ada
+        $env_file = realpath(__DIR__ . '/../../.env.example');
+    }
+    
+    if (file_exists($env_file)) {
+        $lines = file($env_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        foreach ($lines as $line) {
+            // Skip comments
+            if (strpos($line, '#') === 0) continue;
+            
+            // Parse KEY=VALUE
+            if (strpos($line, '=') !== false) {
+                [$key, $value] = explode('=', $line, 2);
+                $_ENV[trim($key)] = trim($value);
+            }
+        }
+    }
+}
+
+load_env_file();
+
+// Tentukan environment (local atau live)
+$db_environment = isset($_ENV['DB_ENVIRONMENT']) ? $_ENV['DB_ENVIRONMENT'] : 'local';
+
+// Tentukan database parameters berdasarkan environment
+if (strtolower($db_environment) === 'live') {
+    // LIVE DATABASE (InfiniteFree)
+    define('DB_HOST', $_ENV['LIVE_DB_HOST'] ?? 'sql105.infinityfree.com');
+    define('DB_USER', $_ENV['LIVE_DB_USER'] ?? 'if0_40676823');
+    define('DB_PASS', $_ENV['LIVE_DB_PASS'] ?? 'Mangrovet0ur');
+    define('DB_NAME', $_ENV['LIVE_DB_NAME'] ?? 'if0_40676823_mangrove_wonorejo');
+    define('DB_PORT', $_ENV['LIVE_DB_PORT'] ?? 3306);
+    define('DB_ENVIRONMENT', 'live');
+} else {
+    // LOCAL DATABASE (Development - Laragon)
+    define('DB_HOST', $_ENV['LOCAL_DB_HOST'] ?? 'localhost');
+    define('DB_USER', $_ENV['LOCAL_DB_USER'] ?? 'root');
+    define('DB_PASS', $_ENV['LOCAL_DB_PASS'] ?? '');
+    define('DB_NAME', $_ENV['LOCAL_DB_NAME'] ?? 'mangrove_wonorejo');
+    define('DB_PORT', $_ENV['LOCAL_DB_PORT'] ?? 3306);
+    define('DB_ENVIRONMENT', 'local');
+}
 
 // Create PDO connection
 try {
@@ -25,7 +66,7 @@ try {
         ]
     );
 } catch (PDOException $e) {
-    die('Database connection failed: ' . $e->getMessage());
+    die('Database connection failed: ' . $e->getMessage() . ' [Environment: ' . DB_ENVIRONMENT . ']');
 }
 
 /**

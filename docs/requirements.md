@@ -148,6 +148,20 @@ Built with:
 * Native PHP 8.x
 * PDO / MySQLi with prepared statements
 * Session & cookie handling
+
+### **🆕 Database Configuration System**
+
+* **Multi-Environment Support:** Switch between LOCAL (Laragon) and LIVE (InfiniteFree)
+* **Environment Variables:** `.env` file for secure credential management
+* **Automatic Loading:** Environment variables auto-loaded from `.env`
+* **Zero Code Changes:** Single line change to switch databases
+* **Testing Tools:** Built-in connection tests (browser, CLI, web debugger)
+* **Secure Credentials:** `.env` excluded from git, template provided
+* **Production Ready:** Tested with both LOCAL and LIVE databases
+
+**Database Configurations:**
+- **LOCAL (Development):** localhost, root user, mangrove_wonorejo database
+- **LIVE (Production):** sql105.infinityfree.com, InfiniteFree credentials
 * Optional REST API for front-end or external integration
 
 ### **Database Structure (Main Tables)**
