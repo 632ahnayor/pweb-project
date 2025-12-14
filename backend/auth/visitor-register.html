@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - MangroveTour</title>
+    <link rel="stylesheet" href="../../public/assets/css/bootstrap-5.3.8-dist/bootstrap.css">
+    <link rel="stylesheet" href="../../public/assets/css/bootstrap-icons-1.13.1/bootstrap-icons.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1d4d2d 0%, #2d6a3e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px 0;
+        }
+        .register-container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        .register-container h2 {
+            color: #2d5016;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: 700;
+        }
+        .register-container p {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .form-control {
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        .form-control:focus {
+            border-color: #2d5016;
+            box-shadow: 0 0 0 0.2rem rgba(45, 80, 22, 0.25);
+        }
+        .form-label {
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        .btn-register {
+            background: linear-gradient(135deg, #2d5016 0%, #1d4d2d 100%);
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 10px;
+            border-radius: 5px;
+            width: 100%;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        .btn-register:hover {
+            background: linear-gradient(135deg, #1d4d2d 0%, #0d3d1d 100%);
+            color: white;
+        }
+        .btn-register:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .alert {
+            margin-bottom: 20px;
+            border-radius: 5px;
+            display: none;
+        }
+        .alert.show {
+            display: block;
+        }
+        .helper-text {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+        .password-requirements {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 5px;
+        }
+        .requirement {
+            margin: 5px 0;
+        }
+        .requirement.met {
+            color: #27ae60;
+        }
+        .requirement.not-met {
+            color: #e74c3c;
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        .login-link p {
+            margin: 0 0 10px 0;
+            color: #666;
+            font-size: 14px;
+        }
+        .btn-login {
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            color: #2d5016;
+            font-weight: 600;
+            padding: 10px;
+            border-radius: 5px;
+            width: 100%;
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .btn-login:hover {
+            background: #e8e8e8;
+            border-color: #2d5016;
+            color: #2d5016;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h2><i class="bi bi-person-plus-fill"></i> Create Account</h2>
+        <p>Join MangroveTour to book tickets and share your experience</p>
+
+        <div class="alert alert-danger" id="errorAlert" role="alert"></div>
+        <div class="alert alert-success" id="successAlert" role="alert"></div>
+
+        <form id="registerForm">
+            <!-- Username -->
+            <div class="mb-3">
+                <label for="username" class="form-label">Username *</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Choose a unique username" required>
+                <div class="helper-text">3-20 characters, letters, numbers, underscore only</div>
+            </div>
+
+            <!-- Full Name -->
+            <div class="mb-3">
+                <label for="nama" class="form-label">Full Name *</label>
+                <input type="text" class="form-control" id="nama" name="nama" placeholder="Enter your full name" required>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+                <label for="email" class="form-label">Email Address *</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+
+            <!-- Phone -->
+            <div class="mb-3">
+                <label for="no_hp" class="form-label">Phone Number *</label>
+                <input type="tel" class="form-control" id="no_hp" name="no_hp" placeholder="e.g., +62812345678" required>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+                <label for="password" class="form-label">Password *</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Minimum 6 characters" required onkeyup="checkPasswordStrength()">
+                <div class="password-requirements">
+                    <div class="requirement" id="req-length">
+                        <i class="bi bi-circle-fill"></i> At least 6 characters
+                    </div>
+                </div>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="mb-3">
+                <label for="password_confirm" class="form-label">Confirm Password *</label>
+                <input type="password" class="form-control" id="password_confirm" name="password_confirm" placeholder="Re-enter your password" required onkeyup="checkPasswordMatch()">
+                <div class="helper-text" id="passwordMatch"></div>
+            </div>
+
+            <button type="submit" class="btn-register" id="submitBtn">
+                <i class="bi bi-person-check"></i> Create Account
+            </button>
+        </form>
+
+        <div class="login-link">
+            <p>Already have an account?</p>
+            <a href="visitor-login.php" class="btn-login">
+                <i class="bi bi-box-arrow-in-right"></i> Login
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('registerForm');
+        const errorAlert = document.getElementById('errorAlert');
+        const successAlert = document.getElementById('successAlert');
+
+        function checkPasswordStrength() {
+            const password = document.getElementById('password').value;
+            const reqLength = document.getElementById('req-length');
+
+            if (password.length >= 6) {
+                reqLength.classList.add('met');
+                reqLength.classList.remove('not-met');
+            } else {
+                reqLength.classList.remove('met');
+                reqLength.classList.add('not-met');
+            }
+        }
+
+        function checkPasswordMatch() {
+            const password = document.getElementById('password').value;
+            const passwordConfirm = document.getElementById('password_confirm').value;
+            const matchText = document.getElementById('passwordMatch');
+
+            if (passwordConfirm === '') {
+                matchText.textContent = '';
+                return;
+            }
+
+            if (password === passwordConfirm) {
+                matchText.textContent = '✓ Passwords match';
+                matchText.style.color = '#27ae60';
+            } else {
+                matchText.textContent = '✗ Passwords do not match';
+                matchText.style.color = '#e74c3c';
+            }
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Hide alerts
+            errorAlert.classList.remove('show');
+            successAlert.classList.remove('show');
+
+            const formData = {
+                username: document.getElementById('username').value,
+                nama: document.getElementById('nama').value,
+                email: document.getElementById('email').value,
+                no_hp: document.getElementById('no_hp').value,
+                password: document.getElementById('password').value,
+                password_confirm: document.getElementById('password_confirm').value
+            };
+
+            // Disable button
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Creating Account...';
+
+            try {
+                const response = await fetch('/pweb-project/backend/auth/visitor-register.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    successAlert.innerHTML = `<i class="bi bi-check-circle"></i> ${result.message}. Redirecting to login...`;
+                    successAlert.classList.add('show');
+
+                    // Redirect to login after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = 'visitor-login.php';
+                    }, 2000);
+                } else {
+                    errorAlert.innerHTML = `<i class="bi bi-exclamation-circle"></i> ${result.message}`;
+                    errorAlert.classList.add('show');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="bi bi-person-check"></i> Create Account';
+                }
+            } catch (error) {
+                errorAlert.innerHTML = `<i class="bi bi-exclamation-circle"></i> An error occurred: ${error.message}`;
+                errorAlert.classList.add('show');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="bi bi-person-check"></i> Create Account';
+            }
+        });
+
+        // Initial check
+        checkPasswordStrength();
+    </script>
+</body>
+</html>

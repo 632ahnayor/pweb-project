@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MangroveTour - Project Index</title>
+    <link rel="stylesheet" href="assets/css/bootstrap-5.3.8-dist/bootstrap.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-icons-1.13.1/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        :root {
+            --primary-green: #2d5016;
+            --secondary-green: #3a7d4e;
+            --accent-green: #5a9f6e;
+            --light-green: #a8d5a8;
+            --pale-green: #f5f8f3;
+            --text-dark: #333;
+            --text-muted: #666;
+        }
+
+        body { 
+            background: linear-gradient(135deg, var(--secondary-green) 0%, var(--primary-green) 100%); 
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container-main { 
+            max-width: 1000px; 
+            background: white; 
+            border-radius: 15px; 
+            padding: 50px; 
+            box-shadow: 0 10px 40px rgba(45, 80, 22, 0.15); 
+        }
+        h1 { 
+            color: var(--primary-green); 
+            margin-bottom: 10px; 
+        }
+        .section-header { 
+            color: var(--secondary-green); 
+            margin-top: 40px; 
+            margin-bottom: 20px; 
+            font-weight: 700; 
+        }
+        .link-card { 
+            background: var(--pale-green); 
+            padding: 15px; 
+            border-radius: 8px; 
+            margin-bottom: 15px; 
+            border-left: 4px solid var(--accent-green);
+            transition: all 0.3s ease;
+        }
+        .link-card:hover {
+            box-shadow: 0 4px 12px rgba(45, 80, 22, 0.1);
+            border-left-color: var(--secondary-green);
+        }
+        .link-card a { 
+            text-decoration: none; 
+            color: var(--secondary-green); 
+            font-weight: 600; 
+        }
+        .link-card a:hover { 
+            color: var(--primary-green); 
+            text-decoration: underline; 
+        }
+        .link-card small { 
+            color: var(--text-muted); 
+            display: block; 
+            margin-top: 5px; 
+        }
+        .quick-info {
+            background: var(--pale-green);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-green);
+        }
+        .quick-info p {
+            margin: 0;
+            color: var(--text-dark);
+        }
+        .quick-info p strong {
+            color: var(--primary-green);
+        }
+    </style>
+</head>
+<body>
+    <div class="container-main">
+        <h1><i class="bi bi-leaf"></i> MangroveTour</h1>
+        <p style="color: var(--text-muted); margin-bottom: 30px;">Mangrove Wonorejo Ecotourism Management System</p>
+
+        <!-- Visitor Area -->
+        <h3 class="section-header"><i class="bi bi-people"></i> Visitor Area (Public)</h3>
+        <div class="link-card">
+            <a href="public/index.html"><i class="bi bi-house"></i> Landing Page</a>
+            <small>Browse information about Mangrove Wonorejo</small>
+        </div>
+        <div class="link-card">
+            <a href="public/booking.html"><i class="bi bi-ticket"></i> Book Tickets</a>
+            <small>Book your tour tickets and select your preferred date and package</small>
+        </div>
+        <div class="link-card">
+            <a href="public/review.html"><i class="bi bi-star"></i> Submit Review</a>
+            <small>Share your experience and rate your visit</small>
+        </div>
+
+        <!-- Admin Area -->
+        <h3 class="section-header"><i class="bi bi-lock"></i> Admin Area (Private)</h3>
+        <div class="link-card">
+            <a href="backend/auth/login.php"><i class="bi bi-box-arrow-in-right"></i> Admin Login</a>
+            <small>Login with admin credentials: admin / admin123</small>
+        </div>
+
+        <!-- Documentation -->
+        <h3 class="section-header"><i class="bi bi-book"></i> Documentation</h3>
+        <div class="link-card">
+            <a href="public/setup.html" target="_blank"><i class="bi bi-file-text"></i> Setup Guide</a>
+            <small>Complete installation and configuration instructions</small>
+        </div>
+        <div class="link-card">
+            <a href="docs/requirements.md" target="_blank"><i class="bi bi-file-earmark"></i> Project Requirements</a>
+            <small>Detailed project specifications and features</small>
+        </div>
+
+        <!-- Quick Info -->
+        <h3 class="section-header"><i class="bi bi-info-circle"></i> Quick Reference</h3>
+        <div class="quick-info">
+            <p><strong>Database:</strong> mangrove_wonorejo</p>
+            <p style="margin-top: 10px;"><strong>Admin User:</strong> admin / admin123</p>
+            <p style="margin-top: 10px;"><strong>Operator User:</strong> operator / operator123</p>
+            <p style="margin-top: 10px;"><strong>Support:</strong> +62 31 7493 0700</p>
+        </div>
+
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; color: var(--text-muted); font-size: 12px;">
+            <p style="margin: 0;">&copy; 2025 MangroveTour - Mangrove Wonorejo Ecotourism Management System</p>
+            <p style="margin: 5px 0 0 0;">Preserving nature, one visit at a time.</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

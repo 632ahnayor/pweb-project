@@ -23,11 +23,13 @@ MangroveTour adalah sistem manajemen berbasis web untuk lokasi ekowisata. Sistem
 
 ## 3. Fitur Utama 
 - Landing Page: Informasi umum tentang lokasi, galeri foto/video, artikel-artikel.
-- Pemesanan Tiket: Formulir pemesanan, pembayaran (opsional).
-- Status Tiket: Update status tiket (Aktif, Digunakan, Kadaluarsa).
+- **Pemesanan & Pembayaran Tiket**: Formulir pemesanan dengan integrasi Midtrans SNAP payment gateway.
+- **Payment Gateway Integration**: Dukungan berbagai metode pembayaran (Bank Transfer, Kartu Kredit, E-Wallet, QRIS).
+- Status Tiket: Update otomatis status tiket setelah pembayaran berhasil (Aktif, Digunakan, Kadaluarsa).
 - Manajemen Pengunjung: Tambah, ubah, hapus data pengunjung.
 - Rating & Review: Pengunjung memberi nilai dan komentar.
-- Laporan Keuangan: Pendapatan per periode.
+- **Laporan Pendapatan (Revenue Report)**: Laporan per periode dari tiket yang divalidasi/digunakan.
+- **Laporan Keuangan (Financial Report)**: Laporan transaksi pembayaran dari Midtrans dengan analisis metode pembayaran.
 - Autentikasi Admin: Login, logout, role-based access.
 - Dashboard Statistik: Grafik jumlah pengunjung dan pendapatan.
 
@@ -42,11 +44,12 @@ MangroveTour adalah sistem manajemen berbasis web untuk lokasi ekowisata. Sistem
 
 ## 5. Spesifikasi Teknis 
 - Front-End: HTML5, CSS3, Bootstrap, JavaScript
-- Back-End: PHP (versi 8.x)
+- Back-End: PHP (versi 8.x) dengan cURL untuk API calls
 - Database: MySQL / MariaDB
 - Server: Apache (XAMPP / Laragon)
 - Tools: VS Code, phpMyAdmin
-- Integrasi API (opsional): Integrasi Payment Gateway 
+- **Integrasi API**: Midtrans SNAP Payment Gateway (Sandbox mode)
+- **Security**: Prepared statements, password hashing (bcrypt), session-based auth, webhook signature validation
 
 <br>
 

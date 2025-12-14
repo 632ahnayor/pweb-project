@@ -1,0 +1,502 @@
+/* MangroveTour - Ecotourism Theme Styles */
+
+:root {
+    --primary-green: #2d5016;
+    --secondary-green: #3a7d4e;
+    --accent-green: #5a9f6e;
+    --light-green: #a8d5a8;
+    --pale-green: #f5f8f3;
+    --text-dark: #333;
+    --text-muted: #666;
+    --border-radius: 12px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+/* Hero Section */
+.hero-section {
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.hero-section h1 {
+    font-weight: 700;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.hero-section .lead {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    opacity: 0.95;
+}
+
+/* Buttons */
+.btn-eco {
+    background: linear-gradient(135deg, var(--secondary-green) 0%, var(--accent-green) 100%);
+    border: none;
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-eco:hover {
+    background: linear-gradient(135deg, var(--accent-green) 0%, var(--secondary-green) 100%);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(45, 80, 22, 0.3);
+}
+
+.btn-eco-light {
+    background: white;
+    color: var(--primary-green);
+    font-weight: 600;
+    border: 2px solid white;
+    transition: all 0.3s ease;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-eco-light:hover {
+    background: var(--accent-green);
+    color: white;
+    border-color: var(--accent-green);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    background: linear-gradient(135deg, var(--secondary-green) 0%, var(--accent-green) 100%);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+/* Benefit Cards */
+.benefit-card {
+    background: white;
+    padding: 30px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid #e8f0e6;
+}
+
+.benefit-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(45, 80, 22, 0.1);
+    border-color: var(--accent-green);
+}
+
+.benefit-icon {
+    font-size: 48px;
+    color: var(--secondary-green);
+    margin-bottom: 15px;
+}
+
+.benefit-card h5 {
+    font-weight: 700;
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+}
+
+.benefit-card p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+}
+
+
+
+/* Review Cards in Index */
+.review-card {
+    background: white;
+    padding: 25px;
+    border-radius: var(--border-radius);
+    border-left: 4px solid var(--secondary-green);
+    transition: all 0.3s ease;
+}
+
+.review-card:hover {
+    transform: translateX(8px);
+    box-shadow: 0 8px 20px rgba(45, 80, 22, 0.1);
+}
+
+.review-rating {
+    color: var(--secondary-green);
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.review-text {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+.review-author {
+    font-weight: 600;
+    color: var(--primary-green);
+    margin-top: 12px;
+    font-size: 0.9rem;
+}
+
+/* Forms */
+.form-control,
+.form-select {
+    border-radius: 6px;
+    border: 2px solid #e0e0e0;
+    padding: 12px 15px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--secondary-green);
+    box-shadow: 0 0 0 0.2rem rgba(45, 80, 22, 0.15);
+}
+
+.form-control::placeholder {
+    color: #bbb;
+}
+
+/* Rating Selector */
+.rating-selector {
+    margin-bottom: 20px;
+}
+
+.rating-selector .btn-check + .btn {
+    background-color: #f0f0f0;
+    color: #666;
+    border-color: #ddd;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    font-weight: 500;
+    flex: 1;
+}
+
+.rating-selector .btn-check + .btn:hover {
+    background-color: var(--light-green);
+    color: var(--primary-green);
+    border-color: var(--secondary-green);
+    transform: translateY(-2px);
+}
+
+.rating-selector .btn-check:checked + .btn {
+    background: linear-gradient(135deg, var(--secondary-green) 0%, var(--accent-green) 100%);
+    color: white;
+    border-color: var(--secondary-green);
+}
+
+.rating-selector .btn-group {
+    display: flex;
+    gap: 8px;
+}
+
+.rating-selector .btn {
+    flex: 1;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+}
+
+/* Navbar */
+.navbar {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--primary-green) !important;
+}
+
+.navbar-brand i {
+    font-size: 26px;
+}
+
+/* Navigation Links */
+.nav-link {
+    font-weight: 500;
+    transition: all 0.3s ease;
+    color: var(--primary-green) !important;
+    display: inline-block;
+}
+
+.nav-link:hover {
+    color: var(--secondary-green) !important;
+    transform: translateY(-2px);
+}
+
+.nav-link.active {
+    color: var(--secondary-green) !important;
+    border-bottom: 3px solid var(--secondary-green);
+}
+
+.nav-link.btn-eco {
+    color: white !important;
+    padding: 0.5rem 1rem !important;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+@media (max-width: 991px) {
+    .nav-link.btn-eco {
+        padding: 0.75rem 1rem !important;
+        font-size: 0.95rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+}
+
+/* Section Styling */
+section {
+    padding: 60px 0;
+}
+
+section h2 {
+    font-weight: 700;
+    color: var(--primary-green);
+    margin-bottom: 40px;
+}
+
+section p {
+    color: var(--text-muted);
+    line-height: 1.8;
+}
+
+/* Badges */
+.badge {
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 20px;
+    background: var(--accent-green);
+    color: white;
+}
+
+/* Tables */
+table {
+    font-size: 14px;
+}
+
+table thead {
+    background: var(--pale-green);
+    color: var(--primary-green);
+    font-weight: 600;
+}
+
+table tbody tr {
+    transition: background 0.2s ease;
+}
+
+table tbody tr:hover {
+    background: var(--pale-green);
+}
+
+/* Alert Messages */
+.alert {
+    border: none;
+    border-radius: var(--border-radius);
+    border-left: 4px solid var(--secondary-green);
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+    border-left-color: #28a745;
+}
+
+.alert-danger {
+    background: #f8d7da;
+    color: #721c24;
+    border-left-color: #dc3545;
+}
+
+.alert-info {
+    background: #d1ecf1;
+    color: #0c5460;
+    border-left-color: #17a2b8;
+}
+
+/* Review Card */
+.review-card {
+    background: white;
+    padding: 25px;
+    border-radius: var(--border-radius);
+    border-left: 4px solid var(--accent-green);
+    transition: all 0.3s ease;
+}
+
+.review-card:hover {
+    box-shadow: 0 5px 15px rgba(45, 80, 22, 0.1);
+    transform: translateY(-3px);
+}
+
+.review-card .rating {
+    color: #f59e0b;
+    font-size: 16px;
+    margin-bottom: 12px;
+}
+
+/* Sidebar Navigation */
+.sidebar {
+    position: sticky;
+    top: 0;
+}
+
+.sidebar h4 {
+    font-weight: 700;
+    color: var(--primary-green);
+}
+
+.sidebar a {
+    display: block;
+    padding: 12px 15px;
+    margin: 5px 0;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: var(--text-dark);
+}
+
+.sidebar a:hover {
+    background: var(--pale-green);
+    color: var(--secondary-green);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    section {
+        padding: 40px 0;
+    }
+
+    .hero-section {
+        min-height: 500px;
+        text-align: center;
+    }
+
+    .hero-section h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero-section .lead {
+        font-size: 1rem;
+    }
+
+    .hero-section .btn-eco-light {
+        display: block;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .sidebar {
+        margin-bottom: 30px;
+    }
+
+    table {
+        font-size: 12px;
+    }
+
+    .btn-lg {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+
+    .benefit-card {
+        padding: 20px;
+    }
+}
+
+/* Utility Classes */
+.text-gradient {
+    background: linear-gradient(135deg, var(--secondary-green) 0%, var(--accent-green) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.shadow-sm {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+.shadow-md {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+.shadow-lg {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Form Validation */
+.was-validated .form-control:valid {
+    border-color: #28a745;
+}
+
+.was-validated .form-control:invalid {
+    border-color: #dc3545;
+}
+
+/* Loading Spinner */
+.spinner {
+    border: 3px solid var(--pale-green);
+    border-top: 3px solid var(--secondary-green);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--pale-green);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--secondary-green);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-green);
+}

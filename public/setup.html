@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MangroveTour Setup & Installation Guide</title>
+</head>
+<body>
+
+<h1>MangroveTour Setup & Installation Guide</h1>
+
+<h2>🌱 Project Overview</h2>
+
+<p>MangroveTour is a full-stack ecotourism management system for Mangrove Wonorejo. It provides ticket booking, visitor management, and revenue reporting for administrators and operators.</p>
+
+<p><strong>Tech Stack:</strong></p>
+<ul>
+    <li>Frontend: HTML5, CSS3, JavaScript, Bootstrap 5</li>
+    <li>Backend: PHP 8+</li>
+    <li>Database: MySQL/MariaDB</li>
+    <li>Server: Apache (XAMPP/Laragon/cPanel)</li>
+</ul>
+
+<hr>
+
+<h2>📋 Prerequisites</h2>
+
+<p>Before installing MangroveTour, ensure you have:</p>
+
+<ul>
+    <li><strong>PHP 8.0+</strong> with PDO, cURL extensions</li>
+    <li><strong>MySQL 5.7+</strong> or <strong>MariaDB 10.3+</strong></li>
+    <li><strong>Apache 2.4+</strong> with mod_rewrite enabled</li>
+    <li><strong>XAMPP</strong>, <strong>Laragon</strong>, or similar local development environment</li>
+    <li><strong>Midtrans Account</strong> (for payment gateway - Sandbox mode)</li>
+</ul>
+
+<hr>
+
+<h2>🚀 Installation Steps</h2>
+
+<h3>1. <strong>Database Setup</strong></h3>
+
+<ol>
+    <li>Open <strong>phpMyAdmin</strong> (usually at <code>http://localhost/phpmyadmin</code>)</li>
+    <li>Create a new database named <code>mangrove_wonorejo</code></li>
+    <li>Select the database and go to the <strong>SQL</strong> tab</li>
+    <li>Open <code>/database/schema.sql</code> and copy the entire SQL code</li>
+    <li>Paste into phpMyAdmin and execute</li>
+</ol>
+
+<p><strong>Default Admin Credentials:</strong></p>
+<ul>
+    <li>Username: <code>admin</code></li>
+    <li>Password: <code>admin123</code></li>
+</ul>
+
+<p><strong>Default Operator Credentials:</strong></p>
+<ul>
+    <li>Username: <code>operator</code></li>
+    <li>Password: <code>operator123</code></li>
+</ul>
+
+<h3>2. <strong>Configure Database Connection</strong></h3>
+
+<p>Edit <code>/backend/config/database.php</code>:</p>
+
+<pre><code class="language-php">
+define('DB_HOST', 'localhost');      // Your database host
+define('DB_USER', 'root');           // Your database username
+define('DB_PASS', '');               // Your database password
+define('DB_NAME', 'mangrove_wonorejo');
+define('DB_PORT', 3306);             // Usually 3306
+</code></pre>
+
+<h3>3. <strong>Configure Apache Virtual Host (Optional)</strong></h3>
+
+<p>If using XAMPP or Laragon, add to <code>/apache/conf/extra/httpd-vhosts.conf</code>:</p>
+
+<pre><code>
+&lt;VirtualHost *:80&gt;
+    DocumentRoot "D:/pweb-project"
+    ServerName mangrovetour.local
+    &lt;Directory "D:/pweb-project"&gt;
+        AllowOverride All
+        Require all granted
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
+</code></pre>
+
+<p>Then add to <code>C:\Windows\System32\drivers\etc\hosts</code>:</p>
+
+<pre><code>
+127.0.0.1 mangrovetour.local
+</code></pre>
+
+<h3>4. <strong>File Permissions</strong></h3>
+
+<p>Ensure write permissions for upload directories (if implemented):</p>
+
+<pre><code class="language-bash">
+# Linux/Mac
+chmod -R 755 /path/to/pweb-project
+
+# Windows (via XAMPP Terminal)
+# Usually automatic, no action needed
+</code></pre>
+
+<hr>
+
+<h2>📁 Project Structure</h2>
+
+<pre><code>
+/pweb-project
+├── /public                    # Frontend (visitor-facing pages)
+│   ├── index.html            # Landing page
+│   ├── booking.html          # Ticket booking form
+│   ├── review.html           # Review submission
+│   └── /assets
+│       ├── /css/style.css    # Global styles
+│       ├── /js/app.js        # Frontend logic
+│       └── /img              # Images directory
+│
+├── /backend                  # Backend (admin/operator area)
+│   ├── /config
+│   │   ├── database.php      # Database connection
+│   │   └── auth_helper.php   # Auth utilities
+│   ├── /auth
+│   │   ├── login.php         # Login page
+│   │   └── logout.php        # Logout handler
+│   ├── /views               # Admin dashboard pages
+│   │   ├── dashboard.php       # Main dashboard
+│   │   ├── pengunjung.php      # Visitor management
+│   │   ├── tiket.php           # Ticket management
+│   │   ├── review.php          # Review moderation
+│   │   └── revenue_report.php  # Revenue reports
+│   ├── /api                 # API endpoints
+│   │   ├── pengunjung.php    # Visitor CRUD
+│   │   ├── tiket.php         # Ticket CRUD
+│   │   └── review.php        # Review CRUD
+│   ├── /models              # Database models (expandable)
+│   └── /controllers         # Business logic (expandable)
+│
+├── /database
+│   └── schema.sql           # Database schema
+│
+├── /docs
+│   └── requirements.md      # Detailed requirements
+├── .htaccess               # Apache rewrite rules
+├── README.md               # This file
+├── project-specifications.md
+└── index.html (root)       # Redirects to /public
+</code></pre>
+
+<hr>
+
+<h2>🔐 Security Features</h2>
+
+<ul>
+    <li>✅ Password hashing with bcrypt</li>
+    <li>✅ Prepared statements for SQL injection prevention</li>
+    <li>✅ Session-based authentication</li>
+    <li>✅ Role-based access control (Admin/Operator)</li>
+    <li>✅ Input validation and sanitization</li>
+    <li>✅ HTTPS-ready headers</li>
+</ul>
+
+<h3>Security Best Practices (Production):</h3>
+
+<ol>
+    <li><strong>Change default passwords</strong> immediately</li>
+    <li><strong>Use HTTPS</strong> on production servers</li>
+    <li><strong>Enable CSRF tokens</strong> (implement in forms)</li>
+    <li><strong>Regularly update</strong> PHP and dependencies</li>
+    <li><strong>Use strong database passwords</strong></li>
+    <li><strong>Implement rate limiting</strong> on login pages</li>
+    <li><strong>Enable security headers</strong> (see <code>.htaccess</code>)</li>
+</ol>
+
+<hr>
+
+<h2>🌐 Access Points</h2>
+
+<h3><strong>Visitor Area (Public)</strong></h3>
+
+<ul>
+    <li><strong>Landing Page:</strong> <code>http://localhost/public/index.html</code></li>
+    <li><strong>Book Ticket:</strong> <code>http://localhost/public/booking.html</code></li>
+    <li><strong>Submit Review:</strong> <code>http://localhost/public/review.html</code></li>
+</ul>
+
+<h3><strong>Admin Area (Private)</strong></h3>
+<ul>
+    <li><strong>Admin Login:</strong> <code>http://localhost/backend/auth/login.php</code></li>
+    <li><strong>Dashboard:</strong> <code>http://localhost/backend/views/dashboard.php</code></li>
+    <li><strong>Visitors:</strong> <code>http://localhost/backend/views/pengunjung.php</code></li>
+    <li><strong>Tickets:</strong> <code>http://localhost/backend/views/tiket.php</code></li>
+    <li><strong>Reviews:</strong> <code>http://localhost/backend/views/review.php</code></li>
+    <li><strong>Reports:</strong> <code>http://localhost/backend/views/revenue_report.php</code></li>
+</ul>
+
+<hr>
+
+<h2>� Midtrans Payment Gateway Setup</h2>
+
+<p><strong>MangroveTour includes Midtrans SNAP payment integration for secure online ticket payments.</strong></p>
+
+<h3>Step 1: Create Midtrans Account</h3>
+<ol>
+    <li>Go to <a href="https://midtrans.com">https://midtrans.com</a> and sign up</li>
+    <li>Register a Sandbox account (for testing)</li>
+    <li>Verify your email and complete registration</li>
+</ol>
+
+<h3>Step 2: Get Your API Keys</h3>
+<ol>
+    <li>Log in to <a href="https://dashboard.sandbox.midtrans.com">Midtrans Sandbox Dashboard</a></li>
+    <li>Go to <strong>Settings → Configuration</strong></li>
+    <li>Copy your <strong>Server Key</strong> and <strong>Client Key</strong></li>
+</ol>
+
+<h3>Step 3: Configure Backend</h3>
+<p>Edit <code>/backend/config/midtrans.php</code>:</p>
+<pre><code class="language-php">
+// Line 19-20
+define('MIDTRANS_SERVER_KEY', 'SB-Mid-server-YOUR_ACTUAL_KEY_HERE');
+define('MIDTRANS_CLIENT_KEY', 'SB-Mid-client-YOUR_ACTUAL_KEY_HERE');
+</code></pre>
+
+<h3>Step 4: Update Frontend Client Key</h3>
+<p>Edit <code>/public/booking.html</code> (Line 161 and 237):</p>
+<pre><code class="language-html">
+&lt;script src="https://app.sandbox.midtrans.com/snap/snap.js"
+        data-client-key="SB-Mid-client-YOUR_ACTUAL_KEY"&gt;&lt;/script&gt;
+
+// And in JavaScript
+const paymentHandler = new MidtransPaymentHandler('SB-Mid-client-YOUR_ACTUAL_KEY');
+</code></pre>
+
+<h3>Step 5: Create Logs Directory</h3>
+<pre><code class="language-bash">
+mkdir logs
+chmod 777 logs
+</code></pre>
+
+<h3>Features Enabled:</h3>
+<ul>
+    <li>✅ Online ticket payment via Midtrans SNAP</li>
+    <li>✅ Multiple payment methods (Bank Transfer, Credit Card, E-Wallet, QRIS)</li>
+    <li>✅ Automatic payment status tracking</li>
+    <li>✅ Financial Report dashboard showing payment transactions</li>
+    <li>✅ Revenue Report showing validated visits</li>
+    <li>✅ Payment webhook callbacks for real-time updates</li>
+</ul>
+
+<p><strong>For detailed Midtrans setup guide, see:</strong> <code>/docs/guide/MIDTRANS_IMPLEMENTATION_CHECKLIST.md</code></p>
+
+<hr>
+
+<h2>� API Endpoints</h2>
+
+<p>All API endpoints return JSON responses.</p>
+
+<h3><strong>Visitors API</strong></h3>
+<pre><code>
+GET    /backend/api/pengunjung.php?action=list      # List all visitors
+GET    /backend/api/pengunjung.php?action=view&id=1 # Get visitor by ID
+POST   /backend/api/pengunjung.php?action=create     # Create visitor
+PUT    /backend/api/pengunjung.php?action=update&id=1 # Update visitor
+DELETE /backend/api/pengunjung.php?action=delete&id=1 # Delete visitor
+</code></pre>
+
+<h3><strong>Tickets API</strong></h3>
+<pre><code>
+GET    /backend/api/tiket.php?action=list           # List all tickets
+GET    /backend/api/tiket.php?action=view&id=1      # Get ticket by ID
+POST   /backend/api/tiket.php?action=create         # Create ticket
+PUT    /backend/api/tiket.php?action=update&id=1    # Update ticket (status)
+DELETE /backend/api/tiket.php?action=delete&id=1    # Delete ticket (admin only)
+</code></pre>
+
+<h3><strong>Reviews API</strong></h3>
+<pre><code>
+GET    /backend/api/review.php?action=list          # List all reviews (admin only)
+GET    /backend/api/review.php?action=public        # List public reviews
+POST   /backend/api/review.php?action=create        # Create review
+DELETE /backend/api/review.php?action=delete&id=1   # Delete review (admin only)
+</code></pre>
+
+<h3><strong>Payment Integration API (Midtrans)</strong></h3>
+<pre><code>
+POST   /backend/api/create_transaction.php          # Create payment transaction & get SNAP token
+POST   /backend/api/midtrans_callback.php           # Webhook for payment notifications
+GET    /backend/api/transaction_status.php?order_id=ORD-* # Check payment status
+
+Admin Reports:
+GET    /backend/views/revenue_report.php            # Ticket sales revenue (by visit date)
+GET    /backend/views/financial_report.php          # Payment transactions (by payment date)
+</code></pre>
+
+<hr>
+
+<h2>🛠️ Troubleshooting</h2>
+
+<h3>Issue: "Database connection failed"</h3>
+<p><strong>Solution:</strong></p>
+<ul>
+    <li>Check database credentials in <code>/backend/config/database.php</code></li>
+    <li>Ensure MySQL/MariaDB service is running</li>
+    <li>Verify database name is <code>mangrove_wonorejo</code></li>
+</ul>
+
+<h3>Issue: "404 Not Found" on admin pages</h3>
+<p><strong>Solution:</strong></p>
+<ul>
+    <li>Enable Apache mod_rewrite: <code>a2enmod rewrite</code></li>
+    <li>Check <code>.htaccess</code> file exists and is properly configured</li>
+    <li>Restart Apache service</li>
+</ul>
+
+<h3>Issue: "Permission denied" on file operations</h3>
+<p><strong>Solution:</strong></p>
+<ul>
+    <li>Ensure proper file permissions (755 for directories, 644 for files)</li>
+    <li>Check Apache user has read/write access</li>
+</ul>
+
+<h3>Issue: "Session lost" after navigation</h3>
+<p><strong>Solution:</strong></p>
+<ul>
+    <li>Verify PHP session storage path has write permissions</li>
+    <li>Check cookie settings in browser (allow cookies)</li>
+    <li>Ensure <code>session_start()</code> is called on protected pages</li>
+</ul>
+
+<hr>
+
+<h2>📝 Features & Usage</h2>
+
+<h3><strong>Visitor Features</strong></h3>
+<ul>
+    <li>✅ Browse information about Mangrove Wonorejo</li>
+    <li>✅ Book tickets with flexible pricing options</li>
+    <li>✅ Submit ratings and reviews</li>
+    <li>✅ View other visitor reviews</li>
+</ul>
+
+<h3><strong>Admin Features</strong></h3>
+<ul>
+    <li>✅ Manage visitor information (CRUD)</li>
+    <li>✅ Create and manage tickets</li>
+    <li>✅ Moderate visitor reviews</li>
+    <li>✅ View comprehensive revenue reports (daily/weekly/monthly)</li>
+    <li>✅ Full system oversight and analytics</li>
+</ul>
+
+<h3><strong>Operator Features</strong></h3>
+<ul>
+    <li>✅ Validate tickets at gate</li>
+    <li>✅ Update ticket status (Active → Used)</li>
+    <li>✅ View ticket information</li>
+</ul>
+
+<hr>
+
+<h2>🚧 Future Enhancements</h2>
+
+<ul>
+    <li>[ ] WhatsApp notifications for bookings</li>
+    <li>[ ] QR code ticket validation</li>
+    <li>[ ] Payment gateway integration (Midtrans/DOKU)</li>
+    <li>[ ] Advanced analytics with Chart.js</li>
+    <li>[ ] Google Maps integration</li>
+    <li>[ ] Email notifications</li>
+    <li>[ ] PDF report export</li>
+    <li>[ ] Multi-language support</li>
+</ul>
+
+<hr>
+
+<h2>📞 Support & Contact</h2>
+
+<p>For issues, feature requests, or questions:</p>
+<ul>
+    <li><strong>Email:</strong> info@mangrovetour.id</li>
+    <li><strong>Phone:</strong> +62 31 7493 0700</li>
+    <li><strong>Website:</strong> mangrovetour.id</li>
+</ul>
+
+<hr>
+
+<h2>📄 License</h2>
+
+<p>MangroveTour is provided as-is for educational and commercial use.</p>
+
+<hr>
+
+<h2>✅ Deployment Checklist</h2>
+
+<ul>
+    <li>[ ] Change all default passwords</li>
+    <li>[ ] Enable HTTPS (SSL certificate)</li>
+    <li>[ ] Update database credentials</li>
+    <li>[ ] Set appropriate file permissions</li>
+    <li>[ ] Enable security headers</li>
+    <li>[ ] Test all functionality</li>
+    <li>[ ] Backup database regularly</li>
+    <li>[ ] Monitor error logs</li>
+    <li>[ ] Implement rate limiting</li>
+    <li>[ ] Set up automated backups</li>
+</ul>
+
+<hr>
+
+<p><strong>Happy coding! 🌱 Preserving nature, one visit at a time.</strong></p>
+
+</body>
+</html>

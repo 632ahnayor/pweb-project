@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Tickets - MangroveTour</title>
+    <link rel="stylesheet" href="assets/css/bootstrap-5.3.8-dist/bootstrap.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-icons-1.13.1/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand fw-bold" href="index.html" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"><i class="bi bi-leaf" style="color: var(--primary-green);"></i> MangroveTour</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="booking.html">Book Ticket</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#reviews">Reviews</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Visitor Status Bar -->
+    <div style="background: #f8f9fa; border-bottom: 2px solid #e9ecef; padding: 10px 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="font-size: 14px; color: #333;">
+                    <span id="visitorStatus">
+                        <i class="bi bi-person"></i> 
+                        <span>Not logged in</span>
+                        <a href="../backend/auth/visitor-login.php" style="margin-left: 10px; color: var(--primary-green); text-decoration: none; font-weight: 500;">Login</a>
+                        <span style="margin: 0 5px; color: #999;">•</span>
+                        <a href="../backend/auth/visitor-register.html" style="color: var(--primary-green); text-decoration: none; font-weight: 500;">Register</a>
+                    </span>
+                </div>
+                <div id="logoutContainer" style="display: none;">
+                    <a href="../backend/auth/visitor-logout.php" class="btn btn-sm btn-outline-danger">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container py-5">
+        <h1 class="mb-4" style="color: #2d5016;"><i class="bi bi-ticket"></i> Book Your Ticket</h1>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 style="margin: 0;">Ticket Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="bookingForm">
+                            <!-- Personal Information -->
+                            <h6 class="mb-3" style="color: #2d5016;">Personal Information</h6>
+                            <div class="mb-3">
+                                <label for="nama" class="form-label">Full Name *</label>
+                                <input type="text" class="form-control" id="nama" name="nama" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="no_hp" class="form-label">Phone Number *</label>
+                                <input type="tel" class="form-control" id="no_hp" name="no_hp" placeholder="e.g., +62812345678" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email Address *</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+
+                            <hr>
+
+                            <!-- Ticket Information -->
+                            <h6 class="mb-3" style="color: #2d5016;">Ticket Details</h6>
+                            <div class="mb-3">
+                                <label for="tanggal_berkunjung" class="form-label">Visit Date *</label>
+                                <input type="date" class="form-control" id="tanggal_berkunjung" name="tanggal_berkunjung" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="ticket_type" class="form-label">Ticket Type *</label>
+                                <select class="form-select" id="ticket_type" name="ticket_type" required onchange="updatePrice()">
+                                    <option value="">-- Select Ticket Type --</option>
+                                    <option value="regular" data-price="50000">Regular Tour - Rp. 50.000</option>
+                                    <option value="guided" data-price="75000">Guided Tour - Rp. 75.000</option>
+                                    <option value="photography" data-price="100000">Photography Tour - Rp. 100.000</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="quantity" class="form-label">Quantity *</label>
+                                <input type="number" class="form-control" id="quantity" name="quantity" min="1" value="1" required onchange="updatePrice()">
+                            </div>
+
+                            <hr>
+
+                            <!-- Price Summary -->
+                            <div class="alert alert-info">
+                                <h6 style="color: #0c5460;">Price Summary</h6>
+                                <p style="margin: 0; font-size: 12px;">
+                                    Unit Price: <span id="unitPrice">Rp. -</span>
+                                </p>
+                                <p style="margin: 0; font-size: 12px;">
+                                    Quantity: <span id="quantityDisplay">-</span>
+                                </p>
+                                <h5 style="margin: 10px 0 0 0; color: #0c5460;">
+                                    Total: <span id="totalPrice">Rp. -</span>
+                                </h5>
+                            </div>
+
+                            <button type="submit" class="btn btn-eco btn-lg w-100">
+                                <i class="bi bi-check-circle"></i> Complete Booking
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <!-- Information Card -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 style="margin: 0;">Tour Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <h6><i class="bi bi-clock"></i> Duration</h6>
+                        <p>2-3 hours depending on tour type</p>
+                        
+                        <h6><i class="bi bi-geo-alt"></i> Location</h6>
+                        <p>Mangrove Wonorejo, East Surabaya</p>
+                        
+                        <h6><i class="bi bi-info-circle"></i> What to Bring</h6>
+                        <ul style="font-size: 14px;">
+                            <li>Comfortable shoes</li>
+                            <li>Sunscreen & hat</li>
+                            <li>Camera (optional)</li>
+                            <li>Insect repellent</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Contact Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 style="margin: 0;">Contact Us</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><i class="bi bi-telephone"></i> +62 31 7493 0700</p>
+                        <p><i class="bi bi-envelope"></i> info@mangrovetour.id</p>
+                        <p><i class="bi bi-clock"></i> Mon-Sun: 08:00 - 17:00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="background: #2d5016; color: white; padding: 40px 0 20px; margin-top: 50px;">
+        <div class="container text-center">
+            <p>&copy; 2025 MangroveTour - Mangrove Wonorejo Ecotourism. All rights reserved.</p>
+            <p style="font-size: 12px; color: #8db58d;">Preserving nature, one visit at a time.</p>
+        </div>
+    </footer>
+
+    <!-- Midtrans SNAP SDK (Sandbox) -->
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js"
+            data-client-key="SB-Mid-client-yGzpX_Cn3fhtimVH"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/midtrans-payment.js"></script>
+    <script>
+        // Check visitor session on page load
+        async function checkVisitorSession() {
+            try {
+                const response = await fetch('/pweb-project/backend/api/visitor-status.php');
+                const data = await response.json();
+                
+                if (data.logged_in) {
+                    const statusSpan = document.getElementById('visitorStatus');
+                    statusSpan.innerHTML = `
+                        <i class="bi bi-person-check"></i>
+                        <strong>${data.nama}</strong> (ID: ${data.id_pengunjung})
+                    `;
+                    
+                    document.getElementById('logoutContainer').style.display = 'block';
+                    
+                    // Pre-fill form with visitor data
+                    document.getElementById('nama').value = data.nama;
+                    document.getElementById('email').value = data.email;
+                    document.getElementById('no_hp').value = data.no_hp;
+                    document.getElementById('nama').readOnly = true;
+                    document.getElementById('email').readOnly = true;
+                    document.getElementById('no_hp').readOnly = true;
+                }
+            } catch (error) {
+                console.log('Not logged in');
+            }
+        }
+
+        // Check session on page load
+        document.addEventListener('DOMContentLoaded', checkVisitorSession);
+
+        function updatePrice() {
+            const ticketTypeSelect = document.getElementById('ticket_type');
+            const quantity = parseInt(document.getElementById('quantity').value) || 1;
+            const selectedOption = ticketTypeSelect.options[ticketTypeSelect.selectedIndex];
+            const unitPrice = parseInt(selectedOption.dataset.price) || 0;
+            const total = unitPrice * quantity;
+
+            document.getElementById('unitPrice').textContent = 'Rp. ' + unitPrice.toLocaleString('id-ID');
+            document.getElementById('quantityDisplay').textContent = quantity;
+            document.getElementById('totalPrice').textContent = 'Rp. ' + total.toLocaleString('id-ID');
+        }
+
+        // Initialize Midtrans Payment Handler
+        const paymentHandler = new MidtransPaymentHandler('SB-Mid-client-YOUR_SANDBOX_CLIENT_KEY_HERE');
+
+        document.getElementById('bookingForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const formData = {
+                nama: document.getElementById('nama').value,
+                no_hp: document.getElementById('no_hp').value,
+                email: document.getElementById('email').value,
+                tanggal_berkunjung: document.getElementById('tanggal_berkunjung').value,
+                ticket_type: document.getElementById('ticket_type').value,
+                quantity: parseInt(document.getElementById('quantity').value)
+            };
+
+            const ticketTypeSelect = document.getElementById('ticket_type');
+            const unitPrice = parseInt(ticketTypeSelect.options[ticketTypeSelect.selectedIndex].dataset.price);
+            const totalAmount = unitPrice * formData.quantity;
+
+            try {
+                // Step 1: Create visitor
+                const visitorRes = await fetch('/pweb-project/backend/api/pengunjung.php?action=create', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        nama: formData.nama,
+                        no_hp: formData.no_hp,
+                        email: formData.email
+                    })
+                });
+
+                if (!visitorRes.ok) throw new Error('Failed to create visitor');
+                const visitorData = await visitorRes.json();
+
+                if (!visitorData.success) throw new Error(visitorData.message);
+
+                // Step 2: Create ticket
+                const ticketRes = await fetch('/pweb-project/backend/api/tiket.php?action=create', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        id_pengunjung: visitorData.id,
+                        tanggal_berkunjung: formData.tanggal_berkunjung,
+                        harga: totalAmount,
+                        status: 'Pending'
+                    })
+                });
+
+                if (!ticketRes.ok) throw new Error('Failed to create ticket');
+                const ticketData = await ticketRes.json();
+
+                if (!ticketData.success) throw new Error(ticketData.message);
+
+                // Step 3: Create transaction and get payment token
+                const transactionResult = await paymentHandler.createTransaction({
+                    amount: totalAmount,
+                    customer_name: formData.nama,
+                    customer_email: formData.email,
+                    customer_phone: formData.no_hp,
+                    id_tiket: ticketData.id
+                });
+
+                // Step 4: Process payment through Midtrans SNAP
+                await paymentHandler.processPayment(transactionResult.token);
+
+                // Step 5: Clear form after successful payment
+                document.getElementById('bookingForm').reset();
+                updatePrice();
+
+            } catch (error) {
+                showNotification('error', 'Booking Error', error.message);
+                console.error('Booking error:', error);
+            }
+        });
+
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('tanggal_berkunjung').min = today;
+    </script>
+</body>
+</html>

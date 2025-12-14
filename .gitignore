@@ -1,0 +1,4 @@
+.gitignore
+docs/guide/
+docs/summary/
+test-db.php
