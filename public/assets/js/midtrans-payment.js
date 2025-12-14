@@ -8,6 +8,26 @@
  * 3. Handles payment callbacks
  */
 
+/**
+ * Auto-detect base path (works on both local /pweb-project and live mangrovetour.gt.tc)
+ */
+function getBasePath() {
+    const currentPath = window.location.pathname;
+    if (currentPath.includes('/pweb-project/')) {
+        return '/pweb-project';
+    }
+    return '';
+}
+
+const APP_BASE_PATH = getBasePath();
+
+/**
+ * Helper function to construct API URLs
+ */
+function apiUrl(path) {
+    return APP_BASE_PATH + path;
+}
+
 class MidtransPaymentHandler {
     constructor(clientKey) {
         this.clientKey = clientKey;
@@ -32,7 +52,7 @@ class MidtransPaymentHandler {
      */
     async createTransaction(paymentData) {
         try {
-            const response = await fetch('/pweb-project/backend/api/create_transaction.php', {
+            const response = await fetch(apiUrl('/backend/api/create_transaction.php'), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -125,7 +145,7 @@ class MidtransPaymentHandler {
      */
     async checkTransactionStatus(orderId) {
         try {
-            const response = await fetch(`/pweb-project/backend/api/transaction_status.php?order_id=${orderId}`);
+            const response = await fetch(apiUrl(`/backend/api/transaction_status.php?order_id=${orderId}`));
             const result = await response.json();
             return result.data || null;
         } catch (error) {

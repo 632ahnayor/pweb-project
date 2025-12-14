@@ -3,6 +3,33 @@
  * Main application logic for visitor-facing pages
  */
 
+/**
+ * Auto-detect base path (works on both local /pweb-project and live mangrovetour.gt.tc)
+ * Returns the base path for API calls
+ */
+function getBasePath() {
+    // Get the relative path from current page to project root
+    const currentPath = window.location.pathname;
+    
+    // If path contains /pweb-project, we're on local
+    if (currentPath.includes('/pweb-project/')) {
+        return '/pweb-project';
+    }
+    
+    // If path is just / or doesn't contain project folder, we're on live (domain root)
+    return '';
+}
+
+// Store base path for use in fetch calls
+const APP_BASE_PATH = getBasePath();
+
+/**
+ * Helper function to construct API URLs
+ */
+function apiUrl(path) {
+    return APP_BASE_PATH + path;
+}
+
 // Initialize app when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     loadPublicReviews();
@@ -14,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
  */
 async function loadPublicReviews() {
     try {
-        const response = await fetch('/pweb-project/backend/api/review.php?action=public');
+        const response = await fetch(apiUrl('/backend/api/review.php?action=public'));
         const data = await response.json();
 
         if (data.success && data.data) {

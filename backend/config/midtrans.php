@@ -38,8 +38,11 @@ define('MIDTRANS_STATUS_API_URL', 'https://api.sandbox.midtrans.com/v2/');
 // ============================================================================
 // APPLICATION CALLBACK URL (Where Midtrans sends payment notifications)
 // ============================================================================
-// Change this to your actual domain in production
-define('CALLBACK_URL', 'http://localhost/pweb-project/backend/api/midtrans_callback.php');
+// Auto-generated based on environment (local or live)
+// Defined in database.php via get_full_url() function
+if (!defined('CALLBACK_URL')) {
+    define('CALLBACK_URL', (function_exists('get_full_url') ? get_full_url('/backend/api/midtrans_callback.php') : 'http://localhost/pweb-project/backend/api/midtrans_callback.php'));
+}
 
 // ============================================================================
 // PAYMENT CONFIGURATION

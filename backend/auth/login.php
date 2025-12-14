@@ -9,7 +9,7 @@ require_once '../config/auth_helper.php';
 
 // Redirect if already logged in
 if (is_logged_in()) {
-    header('Location: /pweb-project/backend/views/dashboard.php');
+    header('Location: ' . (defined('BASE_PATH') ? BASE_PATH : '') . '/backend/views/dashboard.php');
     exit();
 }
 
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'];
 
-            header('Location: /pweb-project/backend/views/dashboard.php');
+            header('Location: ' . (defined('BASE_PATH') ? BASE_PATH : '') . '/backend/views/dashboard.php');
             exit();
         } else {
             $error = 'Invalid username or password';

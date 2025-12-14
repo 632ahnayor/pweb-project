@@ -38,7 +38,7 @@ if (!function_exists('has_role')) {
 if (!function_exists('require_login')) {
     function require_login() {
         if (!is_logged_in()) {
-            header('Location: /pweb-project/backend/auth/login.php');
+            header('Location: ' . (defined('BASE_PATH') ? BASE_PATH : '') . '/backend/auth/login.php');
             exit();
         }
     }
@@ -156,7 +156,7 @@ if (!function_exists('logout_user')) {
             session_destroy();
         }
 
-        header('Location: /pweb-project/backend/auth/login.php');
+        header('Location: ' . (defined('BASE_PATH') ? BASE_PATH : '') . '/backend/auth/login.php');
         exit();
     }
 }
@@ -176,7 +176,7 @@ if (!function_exists('is_visitor_logged_in')) {
 if (!function_exists('require_visitor_login')) {
     function require_visitor_login() {
         if (!is_visitor_logged_in()) {
-            header('Location: /pweb-project/backend/auth/visitor-login.php?redirect=' . urlencode($_SERVER['REQUEST_URI']));
+            header('Location: ' . (defined('BASE_PATH') ? BASE_PATH : '') . '/backend/auth/visitor-login.php?redirect=' . urlencode($_SERVER['REQUEST_URI']));
             exit();
         }
     }

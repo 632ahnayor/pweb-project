@@ -8,12 +8,12 @@ require_once '../config/auth_helper.php';
 
 // Redirect if already logged in
 if (is_visitor_logged_in()) {
-    header('Location: /pweb-project/public/booking.html');
+    header('Location: ' . (defined('BASE_PATH') ? BASE_PATH : '') . '/public/booking.html');
     exit();
 }
 
 $error = '';
-$redirect = $_GET['redirect'] ?? '/pweb-project/public/booking.html';
+$redirect = $_GET['redirect'] ?? (defined('BASE_PATH') ? BASE_PATH : '') . '/public/booking.html';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = sanitize_input($_POST['username'] ?? '');
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Update last login
             update_data('pengunjung', ['terakhir_login' => date('Y-m-d H:i:s')], ['id_pengunjung' => $visitor['id_pengunjung']]);
 
-            header('Location: ' . ($redirect ?: '/pweb-project/public/booking.html'));
+            header('Location: ' . ($redirect ?: (defined('BASE_PATH') ? BASE_PATH : '') . '/public/booking.html'));
             exit();
         } else {
             $error = 'Invalid username or password';

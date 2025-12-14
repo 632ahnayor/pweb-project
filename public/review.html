@@ -125,7 +125,7 @@
         // Check visitor session on page load
         async function checkVisitorSession() {
             try {
-                const response = await fetch('/pweb-project/backend/api/visitor-status.php');
+                const response = await fetch('../backend/api/visitor-status.php');
                 const data = await response.json();
                 
                 if (data.logged_in) {
@@ -142,7 +142,7 @@
                 } else {
                     // Redirect to login if not logged in
                     alert('Please login to submit a review');
-                    window.location.href = '/pweb-project/backend/auth/visitor-login.php?redirect=' + encodeURIComponent(window.location.href);
+                    window.location.href = '../backend/auth/visitor-login.php?redirect=' + encodeURIComponent(window.location.href);
                 }
             } catch (error) {
                 console.log('Error checking session:', error);
@@ -162,7 +162,7 @@
             };
 
             try {
-                const response = await fetch('/pweb-project/backend/api/review.php?action=create', {
+                const response = await fetch('../backend/api/review.php?action=create', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(formData)

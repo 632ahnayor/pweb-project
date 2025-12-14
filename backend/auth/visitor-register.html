@@ -256,7 +256,7 @@
             submitBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Creating Account...';
 
             try {
-                const response = await fetch('/pweb-project/backend/auth/visitor-register.php', {
+                const response = await fetch('./visitor-register.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

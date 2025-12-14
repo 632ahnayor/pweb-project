@@ -93,9 +93,9 @@ try {
             'phone' => $customer_phone
         ],
         'callbacks' => [
-            'finish' => 'http://localhost/pweb-project/public/index.html',
-            'unfinish' => 'http://localhost/pweb-project/public/index.html',
-            'error' => 'http://localhost/pweb-project/public/index.html'
+            'finish' => get_full_url('/public/index.html'),
+            'unfinish' => get_full_url('/public/index.html'),
+            'error' => get_full_url('/public/index.html')
         ]
     ];
     

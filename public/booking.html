@@ -179,7 +179,7 @@
         // Check visitor session on page load
         async function checkVisitorSession() {
             try {
-                const response = await fetch('/pweb-project/backend/api/visitor-status.php');
+                const response = await fetch('../backend/api/visitor-status.php');
                 const data = await response.json();
                 
                 if (data.logged_in) {
@@ -240,7 +240,7 @@
 
             try {
                 // Step 1: Create visitor
-                const visitorRes = await fetch('/pweb-project/backend/api/pengunjung.php?action=create', {
+                const visitorRes = await fetch('../backend/api/pengunjung.php?action=create', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -256,7 +256,7 @@
                 if (!visitorData.success) throw new Error(visitorData.message);
 
                 // Step 2: Create ticket
-                const ticketRes = await fetch('/pweb-project/backend/api/tiket.php?action=create', {
+                const ticketRes = await fetch('../backend/api/tiket.php?action=create', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({

@@ -131,3 +131,33 @@ function delete_data($table, $where = []) {
     $stmt = $pdo->prepare($query);
     return $stmt->execute(array_values($where));
 }
+
+/**
+ * Get base path for URL construction
+ * Auto-detects if running on local (/pweb-project) or live (root domain)
+ */
+function get_base_path() {
+    // Get the request URI
+    $request_uri = $_SERVER['REQUEST_URI'] ?? '';
+    
+    // If URI contains /pweb-project, we're on local development
+    if (strpos($request_uri, '/pweb-project/') !== false) {
+        return '/pweb-project';
+    }
+    
+    // If URI doesn't contain /pweb-project, we're on live (domain root)
+    return '';
+}
+
+// Store base path as constant for use in redirects and URLs
+define('BASE_PATH', get_base_path());
+
+/**
+ * Get full URL including protocol and domain
+ * For use in Midtrans callbacks and absolute redirects
+ */
+function get_full_url($path) {
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+    return $protocol . '://' . $host . BASE_PATH . $path;
+}
