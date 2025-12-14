@@ -17,11 +17,11 @@ define('MIDTRANS_IS_PRODUCTION', false);
 
 // Server Key (BACKEND ONLY - DO NOT EXPOSE TO FRONTEND)
 // Get from: https://dashboard.sandbox.midtrans.com/settings/config_info
-define('MIDTRANS_SERVER_KEY', 'SB-Mid-server-oNmwdYis1j-jh6gYuHt0oFl0');
+define('MIDTRANS_SERVER_KEY', 'Mid-server-ENF7FzPcdTHTYsLUQGU7iL0e');
 
 // Client Key (Can be used in frontend)
 // Get from: https://dashboard.sandbox.midtrans.com/settings/config_info
-define('MIDTRANS_CLIENT_KEY', 'SB-Mid-client-nM-SgvUqZcaYjTns');
+define('MIDTRANS_CLIENT_KEY', 'Mid-client-yGzpX_Cn3fhtimVH');
 
 // ============================================================================
 // MERCHANT INFORMATION
@@ -120,25 +120,25 @@ function midtrans_api_request($method, $url, $data = null) {
         return false;
     }
     
-    // Prepare authentication header
+    // Get server key for authentication
     $server_key = MIDTRANS_SERVER_KEY;
-    $auth = base64_encode($server_key . ':');
     
     // Initialize cURL
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+    
+    // Use cURL's built-in HTTP Basic Auth (cleaner than manual header)
     curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
     curl_setopt($ch, CURLOPT_USERPWD, $server_key . ':');
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // For sandbox only
-    curl_setopt($ch, CURLOPT_TIMEOUT, 30); // 30 second timeout
     
     // Set headers
     $headers = [
         'Accept: application/json',
-        'Content-Type: application/json',
-        'Authorization: Basic ' . $auth
+        'Content-Type: application/json'
     ];
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
     

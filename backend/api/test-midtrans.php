@@ -69,21 +69,21 @@ if ($curl_available && $server_key_set) {
     
     $api_url = MIDTRANS_SNAP_API_URL;
     $server_key = MIDTRANS_SERVER_KEY;
-    $auth = base64_encode($server_key . ':');
     
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $api_url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-    curl_setopt($ch, CURLOPT_USERPWD, $server_key . ':');
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_TIMEOUT, 30);
     
+    // Use cURL's built-in HTTP Basic Auth
+    curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+    curl_setopt($ch, CURLOPT_USERPWD, $server_key . ':');
+    
     $headers = [
         'Accept: application/json',
-        'Content-Type: application/json',
-        'Authorization: Basic ' . $auth
+        'Content-Type: application/json'
     ];
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($test_data));
