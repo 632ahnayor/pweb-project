@@ -170,7 +170,7 @@
 
     <!-- Midtrans SNAP SDK (Sandbox) -->
     <script src="https://app.sandbox.midtrans.com/snap/snap.js"
-            data-client-key="SB-Mid-client-yGzpX_Cn3fhtimVH"></script>
+            data-client-key="SB-Mid-client-nM-SgvUqZcaYjTns"></script>
 
     <!-- Base path detection - MUST be loaded first, before other scripts -->
     <script src="assets/js/base-path.js"></script>
@@ -186,7 +186,7 @@
         // Check visitor session on page load
         async function checkVisitorSession() {
             try {
-                const response = await fetch('../backend/api/visitor-status.php');
+                const response = await fetch(apiUrl('/backend/api/visitor-status.php'));
                 const data = await response.json();
                 
                 if (data.logged_in) {
@@ -232,7 +232,7 @@
         }
 
         // Initialize Midtrans Payment Handler
-        const paymentHandler = new MidtransPaymentHandler('SB-Mid-client-YOUR_SANDBOX_CLIENT_KEY_HERE');
+        const paymentHandler = new MidtransPaymentHandler('SB-Mid-client-nM-SgvUqZcaYjTns');
 
         document.getElementById('bookingForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -255,7 +255,7 @@
 
                 // Step 1: Create visitor ONLY if not logged in
                 if (!isVisitorLoggedIn) {
-                    const visitorRes = await fetch('../backend/api/pengunjung.php?action=create', {
+                    const visitorRes = await fetch(apiUrl('/backend/api/pengunjung.php?action=create'), {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -277,7 +277,7 @@
                 }
 
                 // Step 2: Create ticket
-                const ticketRes = await fetch('../backend/api/tiket.php?action=create', {
+                const ticketRes = await fetch(apiUrl('/backend/api/tiket.php?action=create'), {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({

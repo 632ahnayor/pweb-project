@@ -76,6 +76,14 @@ try {
 }
 
 /**
+ * Get PDO database connection
+ */
+function get_db() {
+    global $pdo;
+    return $pdo;
+}
+
+/**
  * Helper function to execute prepared statements
  */
 function execute_query($query, $params = []) {

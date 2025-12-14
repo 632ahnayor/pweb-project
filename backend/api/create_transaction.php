@@ -20,6 +20,11 @@
 
 header('Content-Type: application/json');
 
+// Clean output buffer to prevent BOM/whitespace issues
+if (ob_get_level() === 0) {
+    ob_start();
+}
+
 // Enable error reporting
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -31,6 +36,7 @@ require_once __DIR__ . '/../config/midtrans.php';
 // Validate request method
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
+    clean_for_json();
     echo json_encode([
         'success' => false,
         'message' => 'Method not allowed. Use POST request.'
@@ -69,6 +75,7 @@ if (!$customer_phone || strlen($customer_phone) < 10) {
 
 if (!empty($errors)) {
     http_response_code(400);
+    clean_for_json();
     echo json_encode([
         'success' => false,
         'message' => 'Validation failed',
@@ -80,6 +87,9 @@ if (!empty($errors)) {
 try {
     // Generate unique order ID
     $order_id = generate_order_id();
+    
+    // Log for debugging
+    error_log("Creating transaction: Order ID = $order_id, Amount = $amount");
     
     // Prepare transaction data for Midtrans
     $transaction_data = [
@@ -99,15 +109,26 @@ try {
         ]
     ];
     
+    // Log transaction data for debugging
+    error_log("Midtrans transaction data: " . json_encode($transaction_data));
+    
     // Call Midtrans API to get Snap Token
+    error_log("Calling Midtrans API at: " . MIDTRANS_SNAP_API_URL);
     $snap_response = midtrans_api_request(
         'POST',
         MIDTRANS_SNAP_API_URL,
         $transaction_data
     );
     
+    // Log Midtrans response
+    error_log("Midtrans response: " . json_encode($snap_response));
+    
     if (!$snap_response || !isset($snap_response['token'])) {
-        throw new Exception('Failed to generate payment token from Midtrans');
+        $error_msg = 'Failed to generate payment token from Midtrans';
+        if (isset($snap_response['error_id'])) {
+            $error_msg .= ' (' . $snap_response['error_id'] . ': ' . ($snap_response['error_message'] ?? 'Unknown error') . ')';
+        }
+        throw new Exception($error_msg);
     }
     
     $snap_token = $snap_response['token'];
@@ -128,6 +149,7 @@ try {
     
     // Return success response with token
     http_response_code(200);
+    clean_for_json();
     echo json_encode([
         'success' => true,
         'message' => 'Transaction created successfully',
@@ -139,6 +161,7 @@ try {
 } catch (Exception $e) {
     error_log('Error in create_transaction.php: ' . $e->getMessage());
     http_response_code(500);
+    clean_for_json();
     echo json_encode([
         'success' => false,
         'message' => 'Error creating transaction: ' . $e->getMessage()

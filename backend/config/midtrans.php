@@ -17,11 +17,11 @@ define('MIDTRANS_IS_PRODUCTION', false);
 
 // Server Key (BACKEND ONLY - DO NOT EXPOSE TO FRONTEND)
 // Get from: https://dashboard.sandbox.midtrans.com/settings/config_info
-define('MIDTRANS_SERVER_KEY', 'SB-Mid-server-ENF7FzPcdTHTYsLUQGU7iL0e');
+define('MIDTRANS_SERVER_KEY', 'SB-Mid-server-oNmwdYis1j-jh6gYuHt0oFl0');
 
 // Client Key (Can be used in frontend)
 // Get from: https://dashboard.sandbox.midtrans.com/settings/config_info
-define('MIDTRANS_CLIENT_KEY', 'SB-Mid-client-yGzpX_Cn3fhtimVH');
+define('MIDTRANS_CLIENT_KEY', 'SB-Mid-client-nM-SgvUqZcaYjTns');
 
 // ============================================================================
 // MERCHANT INFORMATION
@@ -39,9 +39,13 @@ define('MIDTRANS_STATUS_API_URL', 'https://api.sandbox.midtrans.com/v2/');
 // APPLICATION CALLBACK URL (Where Midtrans sends payment notifications)
 // ============================================================================
 // Auto-generated based on environment (local or live)
-// Defined in database.php via get_full_url() function
+// Uses get_full_url() from database.php which auto-detects protocol, domain, and base path
 if (!defined('CALLBACK_URL')) {
-    define('CALLBACK_URL', (function_exists('get_full_url') ? get_full_url('/backend/api/midtrans_callback.php') : 'http://localhost/pweb-project/backend/api/midtrans_callback.php'));
+    // Require database.php first to ensure get_full_url() is available
+    if (!function_exists('get_full_url')) {
+        require_once __DIR__ . '/database.php';
+    }
+    define('CALLBACK_URL', get_full_url('/backend/api/midtrans_callback.php'));
 }
 
 // ============================================================================
@@ -110,6 +114,12 @@ function generate_order_id() {
  * @return array|false Response from Midtrans or false on error
  */
 function midtrans_api_request($method, $url, $data = null) {
+    // Check if cURL is available
+    if (!function_exists('curl_init')) {
+        error_log("WARNING: cURL is not available on this server. Midtrans payment may not work.");
+        return false;
+    }
+    
     // Prepare authentication header
     $server_key = MIDTRANS_SERVER_KEY;
     $auth = base64_encode($server_key . ':');
@@ -122,6 +132,7 @@ function midtrans_api_request($method, $url, $data = null) {
     curl_setopt($ch, CURLOPT_USERPWD, $server_key . ':');
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // For sandbox only
+    curl_setopt($ch, CURLOPT_TIMEOUT, 30); // 30 second timeout
     
     // Set headers
     $headers = [
@@ -144,7 +155,13 @@ function midtrans_api_request($method, $url, $data = null) {
     
     // Handle errors
     if ($error) {
-        error_log("Midtrans API Error: $error");
+        error_log("Midtrans API cURL Error: $error");
+        return false;
+    }
+    
+    // Check if response is empty
+    if (empty($response)) {
+        error_log("Midtrans API returned empty response (HTTP $http_code)");
         return false;
     }
     
@@ -154,7 +171,14 @@ function midtrans_api_request($method, $url, $data = null) {
     // Log response status
     error_log("Midtrans API Response (HTTP $http_code): " . json_encode($result));
     
-    return ($http_code >= 200 && $http_code < 300) ? $result : false;
+    // Return result if HTTP status is success
+    if ($http_code >= 200 && $http_code < 300) {
+        return $result;
+    }
+    
+    // Log error response
+    error_log("Midtrans API Error: HTTP $http_code - " . json_encode($result));
+    return false;
 }
 
 // ============================================================================
