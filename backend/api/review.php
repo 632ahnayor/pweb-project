@@ -21,6 +21,7 @@ try {
                 JOIN pengunjung p ON r.id_pengunjung = p.id_pengunjung 
                 ORDER BY r.created_at DESC
             ');
+            clean_for_json();
             echo json_encode(['success' => true, 'data' => $reviews]);
         } else if ($action === 'public') {
             // Public reviews for landing page
@@ -31,6 +32,7 @@ try {
                 ORDER BY r.created_at DESC
                 LIMIT 10
             ');
+            clean_for_json();
             echo json_encode(['success' => true, 'data' => $reviews]);
         } else if ($action === 'view' && isset($_GET['id'])) {
             require_admin();
@@ -41,9 +43,11 @@ try {
                 WHERE r.id_review = ?
             ', [$_GET['id']]);
             if ($review) {
+                clean_for_json();
                 echo json_encode(['success' => true, 'data' => $review]);
             } else {
                 http_response_code(404);
+                clean_for_json();
                 echo json_encode(['success' => false, 'message' => 'Review not found']);
             }
         }
@@ -74,6 +78,7 @@ try {
                 'rating' => $rating,
                 'komentar' => sanitize_input($komentar)
             ]);
+            clean_for_json();
             echo json_encode(['success' => true, 'message' => 'Review submitted successfully', 'id' => $id]);
         }
     } else if ($method === 'DELETE') {
@@ -84,18 +89,22 @@ try {
 
             if (!$review) {
                 http_response_code(404);
+                clean_for_json();
                 echo json_encode(['success' => false, 'message' => 'Review not found']);
                 exit();
             }
 
             delete_data('review', ['id_review' => $_GET['id']]);
+            clean_for_json();
             echo json_encode(['success' => true, 'message' => 'Review deleted successfully']);
         }
     } else {
         http_response_code(405);
+        clean_for_json();
         echo json_encode(['success' => false, 'message' => 'Method not allowed']);
     }
 } catch (Exception $e) {
     http_response_code(400);
+    clean_for_json();
     echo json_encode(['success' => false, 'message' => $e->getMessage()]);
 }
