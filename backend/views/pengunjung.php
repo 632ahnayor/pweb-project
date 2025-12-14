@@ -129,7 +129,7 @@ $pengunjung_list = fetch_all('SELECT * FROM pengunjung ORDER BY created_at DESC'
                     <!-- List -->
                     <div class="card mt-4">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 style="margin: 0;">Visitors List</h5>
+                            <h5 style="margin: 0; color: white;">Visitors List</h5>
                             <a href="pengunjung.php?action=add" class="btn btn-sm btn-light"><i class="bi bi-plus"></i> Add Visitor</a>
                         </div>
                         <div class="card-body">

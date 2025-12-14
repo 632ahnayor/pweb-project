@@ -152,7 +152,7 @@ $pengunjung_list = fetch_all('SELECT id_pengunjung, nama FROM pengunjung ORDER B
                     <!-- List -->
                     <div class="card mt-4">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 style="margin: 0;">Tickets List</h5>
+                            <h5 style="margin: 0; color: white;">Tickets List</h5>
                             <a href="tiket.php?action=add" class="btn btn-sm btn-light"><i class="bi bi-plus"></i> Create Ticket</a>
                         </div>
                         <div class="card-body">

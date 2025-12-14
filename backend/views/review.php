@@ -80,7 +80,7 @@ $avg_rating = fetch_one('SELECT AVG(rating) as avg_rating FROM review');
                 <!-- Reviews List -->
                 <div class="card">
                     <div class="card-header">
-                        <h5 style="margin: 0;"><i class="bi bi-chat-dots"></i> All Reviews</h5>
+                        <h5 style="margin: 0; color: white;"><i class="bi bi-chat-dots"></i> All Reviews</h5>
                     </div>
                     <div class="card-body">
                         <?php if (empty($review_list)): ?>
