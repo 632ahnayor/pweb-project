@@ -172,8 +172,9 @@
 
                 if (data.success) {
                     alert('Thank you for your review! It has been submitted successfully.');
-                    document.getElementById('reviewForm').reset();
-                    document.getElementById('rating5').checked = true;
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1500);
                 } else {
                     alert('Error: ' + data.message);
                 }

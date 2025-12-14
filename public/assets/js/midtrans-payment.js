@@ -103,6 +103,10 @@ class MidtransPaymentHandler {
         if (result.order_id) {
             sessionStorage.setItem('last_order_id', result.order_id);
         }
+
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 1500);
     }
 
     /**
