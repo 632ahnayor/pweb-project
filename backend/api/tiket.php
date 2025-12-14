@@ -8,10 +8,14 @@ header('Content-Type: application/json');
 require_once '../config/database.php';
 require_once '../config/auth_helper.php';
 
-require_operator();
-
+// Only require operator/admin for GET/UPDATE/DELETE
+// POST create is public to allow visitor ticket bookings
 $method = $_SERVER['REQUEST_METHOD'];
 $action = $_GET['action'] ?? null;
+
+if ($method === 'GET' || $method === 'PUT' || $method === 'DELETE') {
+    require_operator();
+}
 
 try {
     if ($method === 'GET') {
