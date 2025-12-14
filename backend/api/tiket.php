@@ -26,6 +26,7 @@ try {
                 JOIN pengunjung p ON t.id_pengunjung = p.id_pengunjung 
                 ORDER BY t.created_at DESC
             ');
+            clean_for_json();
             echo json_encode(['success' => true, 'data' => $tiket]);
         } else if ($action === 'view' && isset($_GET['id'])) {
             $tiket = fetch_one('
@@ -35,9 +36,11 @@ try {
                 WHERE t.id_tiket = ?
             ', [$_GET['id']]);
             if ($tiket) {
+                clean_for_json();
                 echo json_encode(['success' => true, 'data' => $tiket]);
             } else {
                 http_response_code(404);
+                clean_for_json();
                 echo json_encode(['success' => false, 'message' => 'Ticket not found']);
             }
         }
@@ -64,6 +67,7 @@ try {
                 'harga' => $harga,
                 'status' => 'Active'
             ]);
+            clean_for_json();
             echo json_encode(['success' => true, 'message' => 'Ticket created successfully', 'id' => $id]);
         }
     } else if ($method === 'PUT') {
@@ -75,6 +79,7 @@ try {
 
             if (!$tiket) {
                 http_response_code(404);
+                clean_for_json();
                 echo json_encode(['success' => false, 'message' => 'Ticket not found']);
                 exit();
             }
@@ -88,6 +93,7 @@ try {
             }
 
             update_data('tiket', $update_data, ['id_tiket' => $id]);
+            clean_for_json();
             echo json_encode(['success' => true, 'message' => 'Ticket updated successfully']);
         }
     } else if ($method === 'DELETE') {
@@ -98,18 +104,20 @@ try {
 
             if (!$tiket) {
                 http_response_code(404);
+                clean_for_json();
                 echo json_encode(['success' => false, 'message' => 'Ticket not found']);
                 exit();
             }
 
             delete_data('tiket', ['id_tiket' => $_GET['id']]);
+            clean_for_json();
             echo json_encode(['success' => true, 'message' => 'Ticket deleted successfully']);
         }
     } else {
         http_response_code(405);
+        clean_for_json();
         echo json_encode(['success' => false, 'message' => 'Method not allowed']);
     }
 } catch (Exception $e) {
     http_response_code(400);
-    echo json_encode(['success' => false, 'message' => $e->getMessage()]);
-}
+    clean_for_json();

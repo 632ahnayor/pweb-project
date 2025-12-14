@@ -5,6 +5,12 @@
  * Support untuk Local dan Live Database
  */
 
+// Clean output buffering to prevent BOM/whitespace issues
+// This prevents accidental output before JSON headers
+if (ob_get_level() === 0) {
+    ob_start();
+}
+
 // Load environment variables dari .env file
 function load_env_file() {
     $env_file = realpath(__DIR__ . '/../../.env');
@@ -160,4 +166,13 @@ function get_full_url($path) {
     $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
     $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
     return $protocol . '://' . $host . BASE_PATH . $path;
+}
+/**
+ * Clean output buffer before JSON response
+ * Prevents BOM and whitespace issues in API responses
+ */
+function clean_for_json() {
+    if (ob_get_level() > 0) {
+        ob_end_clean();
+    }
 }
